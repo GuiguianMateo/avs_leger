@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\consultation;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ConsultationController extends Controller
@@ -12,7 +13,10 @@ class ConsultationController extends Controller
      */
     public function index()
     {
-        //
+        $consultations = Consultation::all();
+        $users = User::all();
+
+        return view('consultation.index', compact('consultations','users'));
     }
 
     /**
