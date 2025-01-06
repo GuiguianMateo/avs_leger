@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreign('prescription_id')->references('id')->on('prescriptions')->onDelete('restrict');
             $table->foreign('medicament_id')->references('id')->on('medicaments')->onDelete('restrict');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

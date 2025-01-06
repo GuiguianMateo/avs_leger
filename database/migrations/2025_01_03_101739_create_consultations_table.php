@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('consultations', function (Blueprint $table) {
             $table->id('id');
             $table->date('date_consultation');
-            $table->integer('retard')->nullable();
+            $table->boolean('retard');
+            $table->enum('statu', ['attente', 'valide', 'rejete'])->default('attente');
 
             $table->unsignedBigInteger('type_id');
             $table->unsignedBigInteger('user_id');
@@ -25,6 +26,7 @@ return new class extends Migration
             $table->foreign('praticien_id')->references('id')->on('praticiens')->onDelete('restrict');
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

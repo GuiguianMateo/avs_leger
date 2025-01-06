@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nom');
             $table->date('peremption');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\consultation;
+use App\Models\Praticien;
+use App\Models\Type;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -13,8 +15,8 @@ class ConsultationController extends Controller
      */
     public function index()
     {
-        $consultations = Consultation::all();
-        $users = User::all();
+        $consultations = Consultation::withTrashed()->get();
+        $users = User::withTrashed()->get();
 
         return view('consultation.index', compact('consultations','users'));
     }
@@ -24,7 +26,11 @@ class ConsultationController extends Controller
      */
     public function create()
     {
-        //
+        $types = Type::all();
+        $users = User::all();
+        $praticiens = Praticien::all();
+
+        return view('consultation.create', compact('types', 'users', 'praticiens'));
     }
 
     /**
@@ -32,7 +38,30 @@ class ConsultationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $consultation = new Consultation();
+
+        $consultation->date_consultation = $data['date_consultation'];
+        $consultation->type_id = $data['type_id'];
+        $consultation->user_id = $data['user_id'];
+        $consultation->praticien_id = $data['praticien_id'];
+
+        if($data['date_consultation'] < now() ){
+
+            $consultation->retard = 0;
+
+        } elseif($data['date_consultation'] >= now() ){
+
+            $consultation->retard = 1;
+
+        }
+
+
+        $consultation->save();
+
+        session()->flash('message', ['type' => 'success', 'text' => __('consultation created successfully.')]);
+
+        return redirect()->route('consultation.index');
     }
 
     /**
@@ -64,6 +93,16 @@ class ConsultationController extends Controller
      */
     public function destroy(consultation $consultation)
     {
-        //
+        $consultation->delete();
+        session()->flash('message', ['type' => 'success', 'text' => __('Consultation deleted successfully.')]);
+        return redirect()->route('consultation.index');
+    }
+
+    public function restore($id)
+    {
+        $consultation = Consultation::withTrashed()->findOrFail($id);
+        $consultation->restore();
+        session()->flash('message', ['type' => 'success', 'text' => __('Consultation restored successfully.')]);
+        return redirect()->route('consultation.index');
     }
 }

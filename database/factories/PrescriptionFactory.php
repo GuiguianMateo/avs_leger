@@ -18,6 +18,7 @@ class PrescriptionFactory extends Factory
     public function definition(): array
     {
         return [
+            'detail' => $this->faker->realTextBetween(25, 250),
             'duree' => $this->faker->numberBetween(1, 30),
             'quantite' => $this->faker->numberBetween(1, 100),
             'ratio' => function (array $attributes) {

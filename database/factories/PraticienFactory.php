@@ -18,7 +18,7 @@ class PraticienFactory extends Factory
     public function definition(): array
     {
         return [
-            'nom' => $this->faker->boolean(),
+            'nom' => $this->faker->name(),
             'job' => $this->faker->jobTitle(),
             'type_id' => Type::factory()->create()->id,
         ];

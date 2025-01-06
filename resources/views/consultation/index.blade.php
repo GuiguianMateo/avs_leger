@@ -2,19 +2,6 @@
 
 @section('content')
     <div class="bg-gray-100 p-6 min-h-screen">
-        @if (session('message'))
-            <div class="alert mt-4 p-4 rounded-lg shadow-md
-                        @if(session('message')['type'] === 'success')
-                            bg-green-50 text-green-800 border border-green-400
-                        @elseif(session('message')['type'] === 'error')
-                            bg-red-50 text-red-800 border border-red-400
-                        @else
-                            bg-gray-50 text-gray-800 border border-gray-300
-                        @endif">
-                {{ session('message')['text'] }}
-            </div>
-        @endif
-
         <div class="w-11/12 max-w-6xl mx-auto bg-white rounded-lg shadow-md p-6 mt-6">
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-3xl font-extrabold text-gray-800">{{ __("Liste des Consultations") }}</h1>

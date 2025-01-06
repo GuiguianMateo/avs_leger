@@ -16,9 +16,11 @@ return new class extends Migration
             $table->string('ratio', 6);
             $table->integer('quantite');
             $table->integer('duree');
+            $table->string('detail', 250);
             $table->unsignedBigInteger('consultation_id');
             $table->foreign('consultation_id')->references('id')->on('consultations')->onDelete('restrict');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
