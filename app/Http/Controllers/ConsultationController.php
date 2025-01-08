@@ -59,7 +59,7 @@ class ConsultationController extends Controller
 
         $consultation->save();
 
-        session()->flash('message', ['type' => 'success', 'text' => __('consultation created successfully.')]);
+        session()->flash('message', ['type' => 'success', 'text' => __('consultation crée avec succès.')]);
 
         return redirect()->route('consultation.index');
     }
@@ -77,7 +77,11 @@ class ConsultationController extends Controller
      */
     public function edit(consultation $consultation)
     {
-        //
+        $types = Type::all();
+        $users = User::all();
+        $praticiens = Praticien::all();
+
+        return view('consultation.edit', compact('types', 'users', 'praticiens', 'consultation'));
     }
 
     /**
@@ -85,7 +89,31 @@ class ConsultationController extends Controller
      */
     public function update(Request $request, consultation $consultation)
     {
-        //
+        $data = $request->all();
+        $consultation = Consultation::findOrFail($consultation->id);
+
+        $consultation->date_consultation = $data['date_consultation'];
+        $consultation->statu = $data['statu'];
+        $consultation->type_id = $data['type_id'];
+        $consultation->user_id = $data['user_id'];
+        $consultation->praticien_id = $data['praticien_id'];
+
+        if($data['date_consultation'] < now() ){
+
+            $consultation->retard = 0;
+
+        } elseif($data['date_consultation'] >= now() ){
+
+            $consultation->retard = 1;
+
+        }
+
+
+        $consultation->save();
+
+        session()->flash('message', ['type' => 'success', 'text' => __(key: 'consultation modifié avec succès.')]);
+
+        return redirect()->route('consultation.index');
     }
 
     /**
@@ -97,6 +125,7 @@ class ConsultationController extends Controller
         session()->flash('message', ['type' => 'success', 'text' => __('Consultation deleted successfully.')]);
         return redirect()->route('consultation.index');
     }
+
 
     public function restore($id)
     {

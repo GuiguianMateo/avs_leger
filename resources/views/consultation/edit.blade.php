@@ -5,25 +5,17 @@
         <div class="w-11/12 max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
             <h1 class="text-3xl font-bold mb-4">{{ __("Modifier la Consultation") }}</h1>
 
-            <form action="{{ route('consultation.update', $consultation) }}" method="POST" class="space-y-4">
+            <form action="{{ route('consultation.update', $consultation->id) }}" method="POST" class="space-y-4">
                 @csrf
                 @method('PUT')
 
                 <div>
                     <label for="date_consultation" class="block font-medium text-gray-700">{{ __("Date de Consultation") }}</label>
-                    <input type="date" name="date_consultation" id="date_consultation"
+                    <input type="datetime-local" name="date_consultation" id="date_consultation"
                            class="w-full mt-2 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                            value="{{ old('date_consultation', $consultation->date_consultation) }}" required>
                 </div>
 
-                <div>
-                    <label for="retard" class="block font-medium text-gray-700">{{ __("Retard") }}</label>
-                    <select name="retard" id="retard"
-                            class="w-full mt-2 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
-                        <option value="0" {{ old('retard', $consultation->retard) == '0' ? 'selected' : '' }}>{{ __("Non") }}</option>
-                        <option value="1" {{ old('retard', $consultation->retard) == '1' ? 'selected' : '' }}>{{ __("Oui") }}</option>
-                    </select>
-                </div>
 
                 <div>
                     <label for="statu" class="block font-medium text-gray-700">{{ __("Statut") }}</label>

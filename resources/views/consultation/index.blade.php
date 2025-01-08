@@ -2,6 +2,18 @@
 
 @section('content')
     <div class="bg-gray-100 p-6 min-h-screen">
+        @if (session('message'))
+            <div class="alert mt-4 p-4 rounded-lg shadow-md
+                        @if(session('message')['type'] === 'success')
+                            bg-green-50 text-green-800 border border-green-400
+                        @elseif(session('message')['type'] === 'error')
+                            bg-red-50 text-red-800 border border-red-400
+                        @else
+                            bg-gray-50 text-gray-800 border border-gray-300
+                        @endif">
+                {{ session('message')['text'] }}
+            </div>
+        @endif
         <div class="w-11/12 max-w-6xl mx-auto bg-white rounded-lg shadow-md p-6 mt-6">
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-3xl font-extrabold text-gray-800">{{ __("Liste des Consultations") }}</h1>
@@ -22,39 +34,41 @@
                     </thead>
                     <tbody class="divide-y divide-gray-200">
                         @forelse ($consultations as $consultation)
-                            <tr class="hover:bg-gray-50 transition-all duration-150">
-                                <td class="py-3 px-4">{{ $consultation->user->nom }}</td>
-                                <td class="py-3 px-4">{{ $consultation->date_consultation }}</td>
-                                <td class="py-3 px-4">{{ $consultation->type->nom }}</td>
-                                <td class="py-3 px-4">{{ $consultation->praticien->nom }}</td>
-                                <td class="py-3 px-4 text-center">
-                                    <div class="inline-flex gap-2">
-                                        @if ($consultation->deleted_at === null)
-                                            <a class="px-3 py-2 rounded bg-blue-500 text-white shadow hover:bg-blue-600 transition-all duration-200"
-                                               href="{{ route('consultation.show', $consultation) }}">{{ __("Détails") }}</a>
-                                            <a class="px-3 py-2 rounded bg-orange-500 text-white shadow hover:bg-orange-600 transition-all duration-200"
-                                               href="{{ route('consultation.edit', $consultation) }}">{{ __("Modifier") }}</a>
-                                            <form action="{{ route('consultation.destroy', $consultation) }}" method="post" class="inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit"
-                                                        class="px-3 py-2 rounded bg-red-500 text-white shadow hover:bg-red-600 transition-all duration-200">
-                                                    {{ __("Supprimer") }}
-                                                </button>
-                                            </form>
-                                        @else
-                                            <form action="{{ route('consultation.restore', $consultation) }}" method="post" class="inline">
-                                                @csrf
-                                                @method('GET')
-                                                <button type="submit"
-                                                        class="px-3 py-2 rounded bg-purple-500 text-white shadow hover:bg-purple-600 transition-all duration-200">
-                                                    {{ __("Restaurer") }}
-                                                </button>
-                                            </form>
-                                        @endif
-                                    </div>
-                                </td>
-                            </tr>
+                            @if($consultation->statu != 'attente')
+                                <tr class="hover:bg-gray-50 transition-all duration-150">
+                                    <td class="py-3 px-4">{{ $consultation->user->nom }}</td>
+                                    <td class="py-3 px-4">{{ $consultation->date_consultation }}</td>
+                                    <td class="py-3 px-4">{{ $consultation->type->nom }}</td>
+                                    <td class="py-3 px-4">{{ $consultation->praticien->nom }}</td>
+                                    <td class="py-3 px-4 text-center">
+                                        <div class="inline-flex gap-2">
+                                            @if ($consultation->deleted_at === null)
+                                                <a class="px-3 py-2 rounded bg-blue-500 text-white shadow hover:bg-blue-600 transition-all duration-200"
+                                                   href="{{ route('consultation.show', $consultation) }}">{{ __("Détails") }}</a>
+                                                <a class="px-3 py-2 rounded bg-orange-500 text-white shadow hover:bg-orange-600 transition-all duration-200"
+                                                   href="{{ route('consultation.edit', $consultation) }}">{{ __("Modifier") }}</a>
+                                                <form action="{{ route('consultation.destroy', $consultation) }}" method="post" class="inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                            class="px-3 py-2 rounded bg-red-500 text-white shadow hover:bg-red-600 transition-all duration-200">
+                                                        {{ __("Supprimer") }}
+                                                    </button>
+                                                </form>
+                                            @else
+                                                <form action="{{ route('consultation.restore', $consultation) }}" method="post" class="inline">
+                                                    @csrf
+                                                    @method('GET')
+                                                    <button type="submit"
+                                                            class="px-3 py-2 rounded bg-purple-500 text-white shadow hover:bg-purple-600 transition-all duration-200">
+                                                        {{ __("Restaurer") }}
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endif
                         @empty
                             <tr>
                                 <td colspan="5" class="py-6 px-4 text-center text-gray-500">{{ __('Aucune consultation trouvée.') }}</td>

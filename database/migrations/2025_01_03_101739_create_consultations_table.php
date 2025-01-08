@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('consultations', function (Blueprint $table) {
             $table->id('id');
-            $table->date('date_consultation');
+            $table->timestamp('date_consultation');
             $table->boolean('retard');
             $table->enum('statu', ['attente', 'valide', 'rejete'])->default('attente');
 

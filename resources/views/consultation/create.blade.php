@@ -10,7 +10,7 @@
 
                 <div>
                     <label for="date_consultation" class="block font-medium text-gray-700">{{ __("Date de Consultation") }}</label>
-                    <input type="date" name="date_consultation" id="date_consultation"
+                    <input type="datetime-local" name="date_consultation" id="date_consultation"
                            class="w-full mt-2 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                            value="{{ old('date_consultation') }}" required>
                 </div>
