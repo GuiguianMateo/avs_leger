@@ -124,7 +124,7 @@ class ConsultationController extends Controller
     public function destroy(consultation $consultation)
     {
         $consultation->delete();
-        session()->flash('message', ['type' => 'success', 'text' => __('Consultation deleted successfully.')]);
+        session()->flash('message', ['type' => 'success', 'text' => __('Consultation supprimé avec succès.')]);
         return redirect()->route('consultation.index');
     }
 
@@ -133,7 +133,7 @@ class ConsultationController extends Controller
     {
         $consultation = Consultation::withTrashed()->findOrFail($id);
         $consultation->restore();
-        session()->flash('message', ['type' => 'success', 'text' => __('Consultation restored successfully.')]);
+        session()->flash('message', ['type' => 'success', 'text' => __('Consultation restoré avec succès.')]);
         return redirect()->route('consultation.index');
     }
 

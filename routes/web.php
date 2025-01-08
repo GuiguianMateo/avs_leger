@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ConsultationController;
+use App\Http\Controllers\PraticienController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Consultation;
 use Illuminate\Support\Facades\Route;
@@ -17,8 +18,10 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::resource('/consultation', ConsultationController::class)->withTrashed();
+    Route::resource('/praticien', PraticienController::class)->withTrashed();
 
     Route::get('/consultation/{consultation}/restore', [ConsultationController::class, 'restore'])->withTrashed()->name('consultation.restore');
+    Route::get('/praticien/{praticien}/restore', [PraticienController::class, 'restore'])->withTrashed()->name('praticien.restore');
 
     Route::get('/demande', [ConsultationController::class, 'demande'])->name('consultation.demande');
     Route::get('/statu/{consultation}/statu', [ConsultationController::class, 'statu'])->name('consultation.statu');
