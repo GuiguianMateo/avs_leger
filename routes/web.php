@@ -20,7 +20,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/consultation/{consultation}/restore', [ConsultationController::class, 'restore'])->withTrashed()->name('consultation.restore');
 
-    // Route::get('/demande', [AbsenceController::class, 'demande'])->name('absence.demande');
+    Route::get('/demande', [ConsultationController::class, 'demande'])->name('consultation.demande');
+    Route::get('/statu/{consultation}/statu', [ConsultationController::class, 'statu'])->name('consultation.statu');
 
     // Route::get('language/{code_iso}', [LanguageController::class, 'change'])->name('language.change');
 });

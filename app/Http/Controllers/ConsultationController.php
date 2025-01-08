@@ -6,6 +6,8 @@ use App\Models\consultation;
 use App\Models\Praticien;
 use App\Models\Type;
 use App\Models\User;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class ConsultationController extends Controller
@@ -133,5 +135,22 @@ class ConsultationController extends Controller
         $consultation->restore();
         session()->flash('message', ['type' => 'success', 'text' => __('Consultation restored successfully.')]);
         return redirect()->route('consultation.index');
+    }
+
+    public function demande(Consultation $consultation): View
+    {
+        $consultations = Consultation::all();
+
+        return view('Consultation.demande', compact('consultations'));
+    }
+
+    public function statu(Request $request, Consultation $consultation): RedirectResponse
+    {
+        $data = $request->all();
+
+        $consultation->statu = $data['statu'];
+        $consultation->save();
+
+        return redirect()->route(route: 'consultation.demande');
     }
 }
