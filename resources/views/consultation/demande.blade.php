@@ -40,6 +40,8 @@
                                     <td class="py-3 px-4">{{ $consultation->statu }}</td>
                                     <td class="py-3 px-4 text-center">
                                         <div class="inline-flex gap-2">
+                                            <a class="px-3 py-2 rounded bg-blue-500 text-white shadow hover:bg-blue-600 transition-all duration-200"
+                                            href="{{ route('consultation.show', $consultation) }}">{{ __("Détails") }}</a>
                                             <form action="{{ route('consultation.statu', $consultation) }}" method="post">
                                                 @csrf
                                                 @method('get')

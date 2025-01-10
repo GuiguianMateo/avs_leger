@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ConsultationController extends Controller
 {
@@ -71,7 +72,7 @@ class ConsultationController extends Controller
      */
     public function show(consultation $consultation)
     {
-        //
+        return view('consultation.show', compact('consultation'));
     }
 
     /**
