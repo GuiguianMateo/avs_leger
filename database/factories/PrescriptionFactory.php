@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Consultation;
+use App\Models\Medicament;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -41,6 +42,7 @@ class PrescriptionFactory extends Factory
                 return $numerator . '/' . $denominator;
             },
             'consultation_id' => Consultation::factory()->create()->id,
+            'medicament_id' => Medicament::factory()->create()->id,
         ];
     }
 }

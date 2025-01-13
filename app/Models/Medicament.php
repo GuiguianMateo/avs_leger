@@ -12,6 +12,6 @@ class Medicament extends Model
 
     function prescription()
     {
-        return $this->hasMany(Prescription::class);
+        return $this->HasMany(Prescription::class);
     }
 }

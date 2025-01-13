@@ -18,7 +18,9 @@ return new class extends Migration
             $table->integer('duree');
             $table->string('detail', 250);
             $table->unsignedBigInteger('consultation_id');
+            $table->unsignedBigInteger('medicament_id');
             $table->foreign('consultation_id')->references('id')->on('consultations')->onDelete('restrict');
+            $table->foreign('medicament_id')->references('id')->on('medicaments')->onDelete('restrict');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -25,4 +25,9 @@ class Consultation extends Model
         return $this->belongsTo(Praticien::class);
     }
 
+    function prescription()
+    {
+        return $this->hasMany( Prescription::class);
+    }
+
 }

@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\consultation;
+use App\Models\Medicament;
 use App\Models\Praticien;
+use App\Models\Prescription;
 use App\Models\Type;
 use App\Models\User;
+use Database\Seeders\PrescriptionMedicamentSeeder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -72,7 +75,11 @@ class ConsultationController extends Controller
      */
     public function show(consultation $consultation)
     {
-        return view('consultation.show', compact('consultation'));
+        $medicaments = Medicament::withTrashed()->get();
+        $prescriptions = Prescription::where('consultation_id', $consultation->id)->with(['medicament'])->withTrashed()->get();
+        $users = User::withTrashed()->get();
+
+        return view('consultation.show', compact('consultation', 'medicaments', 'prescriptions', 'users'));
     }
 
     /**

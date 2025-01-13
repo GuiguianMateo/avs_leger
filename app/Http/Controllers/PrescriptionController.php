@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Consultation;
+use App\Models\Medicament;
 use App\Models\prescription;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PrescriptionController extends Controller
@@ -36,7 +39,12 @@ class PrescriptionController extends Controller
      */
     public function show(prescription $prescription)
     {
-        //
+        // $consultations = Consultation::findOrFail($consultationId);
+        // $medicaments = Medicament::withTrashed()->get();
+        // $prescriptions = Prescription::where('consultation_id', $consultations->id)->withTrashed()->get();
+        // $users = User::withTrashed()->get();
+
+        // return view('prescription.index', compact('consultations', 'medicaments', 'prescriptions', 'users'));
     }
 
     /**

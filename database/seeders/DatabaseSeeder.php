@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         (new ConsultationSeeder)->run();
         (new MedicamentSeeder)->run();
         (new PrescriptionSeeder)->run();
+        (new PrescriptionMedicamentSeeder)->run();
 
         // User::factory()->create([
         //     'name' => 'Test User',
