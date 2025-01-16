@@ -27,7 +27,7 @@ class UserFactory extends Factory
             'nom' => fake()->lastName(),
             'prenom' => $this->faker->firstName(),
             'naissance' => $this->faker->date(),
-            'genre' => $this->faker->boolean(),
+            'genre' => $this->faker->randomElement(['masculin', 'feminin', 'autre']),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
