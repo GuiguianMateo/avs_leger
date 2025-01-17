@@ -21,9 +21,13 @@ class PrescriptionController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $id = $request->query('consultation');
+        $consultation = Consultation::findOrFail($id);
+        $medicaments = Medicament::all();
+
+        return view('prescription.create', compact('consultation', 'medicaments'));
     }
 
     /**
@@ -31,7 +35,39 @@ class PrescriptionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $pgcd = function ($a, $b) {
+            while ($b != 0) {
+                $temp = $b;
+                $b = $a % $b;
+                $a = $temp;
+            }
+            return $a;
+        };
+
+        $data = $request->all();
+
+        $duree = $data['duree'];
+        $quantite = $data['quantite'];
+        $divisor = $pgcd($quantite, $duree);
+        $numerator = $quantite / $divisor;
+        $denominator = $duree / $divisor;
+
+
+        $prescription = new Prescription();
+
+        $prescription->quantite = $data['quantite'];
+        $prescription->duree = $data['duree'];
+        $prescription->detail = $data['detail'];
+        $prescription->consultation_id = $data['consultation_id'];
+        $prescription->medicament_id = $data['medicament_id'];
+        $prescription->ratio = $numerator . '/' . $denominator;
+
+        $prescription->save();
+
+        session()->flash('message', ['type' => 'success', 'text' => __('prescription crée avec succès.')]);
+
+        return redirect()->route('consultation.show', ['consultation' => $data['consultation_id']]);
     }
 
     /**
@@ -39,12 +75,7 @@ class PrescriptionController extends Controller
      */
     public function show(prescription $prescription)
     {
-        // $consultations = Consultation::findOrFail($consultationId);
-        // $medicaments = Medicament::withTrashed()->get();
-        // $prescriptions = Prescription::where('consultation_id', $consultations->id)->withTrashed()->get();
-        // $users = User::withTrashed()->get();
-
-        // return view('prescription.index', compact('consultations', 'medicaments', 'prescriptions', 'users'));
+        //
     }
 
     /**
@@ -66,8 +97,20 @@ class PrescriptionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(prescription $prescription)
+    public function destroy(Prescription $prescription)
     {
-        //
+        $consultationId = $prescription->consultation_id; // Récupérer l'ID de la consultation
+        $prescription->delete();
+        session()->flash('message', ['type' => 'success', 'text' => __('Prescription supprimée avec succès.')]);
+        return redirect()->route('consultation.show', ['consultation' => $consultationId]);
+    }
+
+    public function restore($id)
+    {
+        $prescription = Prescription::withTrashed()->findOrFail($id);
+        $consultationId = $prescription->consultation_id; // Récupérer l'ID de la consultation
+        $prescription->restore();
+        session()->flash('message', ['type' => 'success', 'text' => __('Prescription restaurée avec succès.')]);
+        return redirect()->route('consultation.show', ['consultation' => $consultationId]);
     }
 }

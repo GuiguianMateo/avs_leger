@@ -85,7 +85,7 @@ class PraticienController extends Controller
         return redirect()->route('praticien.index');
     }
 
- /**
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(praticien $praticien)

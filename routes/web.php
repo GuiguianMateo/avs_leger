@@ -20,7 +20,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::resource('/consultation', ConsultationController::class)->withTrashed();
     Route::resource('/praticien', PraticienController::class)->withTrashed();
-    Route::resource('/prescription', controller: PrescriptionController::class)->withTrashed();
+    Route::resource('/prescription',PrescriptionController::class)->withTrashed();
 
     Route::get('/consultation/{consultation}/restore', [ConsultationController::class, 'restore'])->withTrashed()->name('consultation.restore');
     Route::get('/praticien/{praticien}/restore', [PraticienController::class, 'restore'])->withTrashed()->name('praticien.restore');
