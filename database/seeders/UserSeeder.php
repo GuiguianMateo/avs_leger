@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Bouncer;
+use Silber\Bouncer\BouncerFacade as Bouncer;
 
 class UserSeeder extends Seeder
 {
@@ -28,7 +28,6 @@ class UserSeeder extends Seeder
             'password' => Hash::make('praticien'),
         ]);
 
-
         Bouncer::allow('admin')->to([
             'absence-restore',
         ]);
@@ -37,14 +36,11 @@ class UserSeeder extends Seeder
             'absence-restore',
         ]);
 
-
         Bouncer::assign('admin')->to($admin);
-
         Bouncer::assign('praticien')->to($praticien);
 
         User::factory()
             ->count(15)
             ->create();
-
     }
 }

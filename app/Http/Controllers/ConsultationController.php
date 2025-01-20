@@ -8,6 +8,7 @@ use App\Models\Praticien;
 use App\Models\Prescription;
 use App\Models\Type;
 use App\Models\User;
+use Silber\Bouncer\BouncerFacade as Bouncer;
 use Database\Seeders\PrescriptionMedicamentSeeder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -53,13 +54,16 @@ class ConsultationController extends Controller
         $consultation->praticien_id = $data['praticien_id'];
 
         if($data['date_consultation'] < now() ){
-
             $consultation->retard = 0;
 
         } elseif($data['date_consultation'] >= now() ){
-
             $consultation->retard = 1;
+        }
 
+        if (Auth::user()->isA('admin') || Auth::user()->isA('praticien')) {
+            $consultation->statu = 'valide';
+        } else {
+            $consultation->statu = 'attente';
         }
 
 

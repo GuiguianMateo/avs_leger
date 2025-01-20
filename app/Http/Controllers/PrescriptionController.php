@@ -35,7 +35,6 @@ class PrescriptionController extends Controller
      */
     public function store(Request $request)
     {
-
         $pgcd = function ($a, $b) {
             while ($b != 0) {
                 $temp = $b;
@@ -83,7 +82,10 @@ class PrescriptionController extends Controller
      */
     public function edit(prescription $prescription)
     {
-        //
+        $consultations = Consultation::all();
+        $medicaments = Medicament::all();
+
+        return view('prescription.edit', compact('consultations', 'medicaments', 'prescription'));
     }
 
     /**
@@ -91,7 +93,37 @@ class PrescriptionController extends Controller
      */
     public function update(Request $request, prescription $prescription)
     {
-        //
+
+        $pgcd = function ($a, $b) {
+            while ($b != 0) {
+                $temp = $b;
+                $b = $a % $b;
+                $a = $temp;
+            }
+            return $a;
+        };
+
+        $data = $request->all();
+
+
+        $duree = $data['duree'];
+        $quantite = $data['quantite'];
+        $divisor = $pgcd($quantite, $duree);
+        $numerator = $quantite / $divisor;
+        $denominator = $duree / $divisor;
+
+        $prescription->quantite = $data['quantite'];
+        $prescription->duree = $data['duree'];
+        $prescription->detail = $data['detail'];
+        $prescription->medicament_id = $data['medicament_id'];
+        $prescription->ratio = $numerator . '/' . $denominator;
+
+        $prescription->save();
+
+        session()->flash('message', ['type' => 'success', 'text' => __('Prescription modifiée avec succès.')]);
+
+        return redirect()->route('consultation.show', ['consultation' => $prescription->consultation_id]);
+
     }
 
     /**

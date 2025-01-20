@@ -46,77 +46,77 @@
                 </p>
             </div>
 
-            <!-- Prescriptions -->
-            <div class="flex justify-between items-center my-6">
+            @if($consultation->statu == 'valide')
+                <!-- Prescriptions -->
+                <div class="flex justify-between items-center my-6">
 
-                <h1 class="text-xl font-extrabold text-gray-800">{{ __("Prescriptions") }}</h1>
+                    <h1 class="text-xl font-extrabold text-gray-800">{{ __("Prescriptions") }}</h1>
 
-                <div class="flex-none ml-4">
-                    <a class="p-3 px-6 rounded-full bg-gradient-to-r from-blue-400 to-blue-600 text-white font-semibold shadow hover:from-blue-500 hover:to-blue-700 transition-all duration-200"
-                        href="{{ route('prescription.create', ['consultation' => $consultation->id]) }}">
-                        {{ __("Ajouter une Prescription") }}
-                    </a>
+                    <div class="flex-none ml-4">
+                        <a class="p-3 px-6 rounded-full bg-gradient-to-r from-blue-400 to-blue-600 text-white font-semibold shadow hover:from-blue-500 hover:to-blue-700 transition-all duration-200"
+                            href="{{ route('prescription.create', ['consultation' => $consultation->id]) }}">
+                            {{ __("Ajouter une Prescription") }}
+                        </a>
+                    </div>
                 </div>
-            </div>
 
-            <div class="overflow-hidden rounded-lg border border-gray-300 shadow-sm mt-6">
-                <table class="w-full text-left border-collapse">
-                    <thead class="bg-gradient-to-r from-gray-200 to-gray-300">
-                        <tr class="text-gray-800">
-                            <th class="py-3 px-4 border-b">Médicament</th>
-                            <th class="py-3 px-4 border-b">Début traitement</th>
-                            <th class="py-3 px-4 border-b text-center">Quantité</th>
-                            <th class="py-3 px-4 border-b">Durée</th>
-                            <th class="py-3 px-4 border-b text-center">Ratio</th>
-                            <th class="py-3 px-4 border-b text-center">Actions</th>
-
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200">
-                        @forelse ($prescriptions as $prescription)
-                            @if($prescription->consultation_id === $consultation->id)
-                                <tr class="hover:bg-gray-50 transition-all duration-150">
-                                    <td class="py-3 px-4">{{ $prescription->medicament->nom }}</td>
-                                    <td class="py-3 px-4">{{ $prescription->created_at ? $prescription->created_at->format('d/m/Y') : __('Aucune info recensée') }}</td>
-                                    <td class="py-3 px-4">{{ $prescription->quantite }}</td>
-                                    <td class="py-3 px-4">{{ $prescription->duree }} jours</td>
-                                    <td class="py-3 px-4">{{ $prescription->ratio }} </td>
-                                    <td class="py-3 px-4 text-center">
-                                        <div class="inline-flex gap-2">
-                                            @if ($prescription->deleted_at === null)
-                                                <a class="px-3 py-2 rounded bg-orange-500 text-white shadow hover:bg-orange-600 transition-all duration-200"
-                                                   href="{{ route('prescription.edit', $prescription) }}">{{ __("Modifier") }}</a>
-                                                <form action="{{ route('prescription.destroy', $prescription) }}" method="post" class="inline">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                            class="px-3 py-2 rounded bg-red-500 text-white shadow hover:bg-red-600 transition-all duration-200">
-                                                        {{ __("Supprimer") }}
-                                                    </button>
-                                                </form>
-                                            @else
-                                                <form action="{{ route('prescription.restore', $prescription) }}" method="post" class="inline">
-                                                    @csrf
-                                                    @method('GET')
-                                                    <button type="submit"
-                                                            class="px-3 py-2 rounded bg-purple-500 text-white shadow hover:bg-purple-600 transition-all duration-200">
-                                                        {{ __("Restaurer") }}
-                                                    </button>
-                                                </form>
-                                            @endif
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endif
-                        @empty
-                            <tr>
-                                <td colspan="5" class="py-6 px-4 text-center text-gray-500">{{ __('Aucune prescription trouvée.') }}</td>
+                <div class="overflow-hidden rounded-lg border border-gray-300 shadow-sm mt-6">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="bg-gradient-to-r from-gray-200 to-gray-300">
+                            <tr class="text-gray-800">
+                                <th class="py-3 px-4 border-b">Médicament</th>
+                                <th class="py-3 px-4 border-b">Début traitement</th>
+                                <th class="py-3 px-4 border-b text-center">Quantité</th>
+                                <th class="py-3 px-4 border-b text-center">Durée</th>
+                                <th class="py-3 px-4 border-b text-center">Ratio</th>
+                                <th class="py-3 px-4 border-b text-center">Actions</th>
                             </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            @forelse ($prescriptions as $prescription)
+                                @if($prescription->consultation_id === $consultation->id)
+                                    <tr class="hover:bg-gray-50 transition-all duration-150">
+                                        <td class="py-3 px-4">{{ $prescription->medicament->nom }}</td>
+                                        <td class="py-3 px-4">{{ $prescription->created_at ? $prescription->created_at->format('d/m/Y') : __('Aucune info recensée') }}</td>
+                                        <td class="py-3 px-4 text-center">{{ $prescription->quantite }}</td>
+                                        <td class="py-3 px-4 text-center">{{ $prescription->duree }} jours</td>
+                                        <td class="py-3 px-4 text-center">{{ $prescription->ratio }}</td>
+                                        <td class="py-3 px-4 text-center">
+                                            <div class="inline-flex gap-2">
+                                                @if ($prescription->deleted_at === null)
+                                                    <a class="px-3 py-2 rounded bg-orange-500 text-white shadow hover:bg-orange-600 transition-all duration-200"
+                                                    href="{{ route('prescription.edit', $prescription) }}">{{ __("Modifier") }}</a>
+                                                    <form action="{{ route('prescription.destroy', $prescription) }}" method="post" class="inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                                class="px-3 py-2 rounded bg-red-500 text-white shadow hover:bg-red-600 transition-all duration-200">
+                                                            {{ __("Supprimer") }}
+                                                        </button>
+                                                    </form>
+                                                @else
+                                                    <form action="{{ route('prescription.restore', $prescription) }}" method="post" class="inline">
+                                                        @csrf
+                                                        @method('GET')
+                                                        <button type="submit"
+                                                                class="px-3 py-2 rounded bg-purple-500 text-white shadow hover:bg-purple-600 transition-all duration-200">
+                                                            {{ __("Restaurer") }}
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endif
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="py-6 px-4 text-center text-gray-500">{{ __('Aucune prescription trouvée.') }}</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            @endif
         </div>
     </div>
 @endsection
