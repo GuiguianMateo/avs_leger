@@ -31,15 +31,21 @@
 
                 <div>
                     <label for="user_id" class="block font-medium text-gray-700">{{ __("Nom du Client") }}</label>
-                    <select name="user_id" id="user_id"
-                            class="w-full mt-2 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                    @if(Auth::user()->isA('admin') || Auth::user()->isA('praticien'))
+                        <select name="user_id" id="user_id"
+                                class="w-full mt-2 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
                             <option value="">{{ "Veuillez selectionner un client" }}</option>
-                        @foreach($users as $user)
-                            <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
-                                {{ $user->nom }} {{ $user->prenom }}
-                            </option>
-                        @endforeach
-                    </select>
+                            @foreach($users as $user)
+                                <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                                    {{ $user->nom }} {{ $user->prenom }}
+                                </option>
+                            @endforeach
+                        </select>
+                    @else
+                        <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                        <input type="text" id="user_name" class="w-full mt-2 px-4 py-2 border rounded-md bg-gray-100 text-gray-700 cursor-not-allowed"
+                               value="{{ Auth::user()->nom }} {{ Auth::user()->prenom }}" readonly>
+                    @endif
                 </div>
 
                 <div>

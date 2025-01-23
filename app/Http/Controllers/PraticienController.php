@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\praticien;
+use App\Models\Praticien;
 use App\Models\Type;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PraticienController extends Controller
 {
@@ -13,10 +14,15 @@ class PraticienController extends Controller
      */
     public function index()
     {
-        $praticiens = Praticien::withTrashed()->get();
-        $types = Type::withTrashed()->get();
+        if (Auth::user()->isA('admin')) {
 
-        return view('praticien.index', compact('praticiens','types'));
+            $praticiens = Praticien::withTrashed()->get();
+            $types = Type::withTrashed()->get();
+
+            return view('praticien.index', compact('praticiens', 'types'));
+        } else {
+            abort(401);
+        }
     }
 
     /**
@@ -24,9 +30,14 @@ class PraticienController extends Controller
      */
     public function create()
     {
-        $types = Type::all();
+        if (Auth::user()->isA('admin')) {
 
-        return view('praticien.create', compact('types'));
+            $types = Type::all();
+
+            return view('praticien.create', compact('types'));
+        } else {
+            abort(401);
+        }
     }
 
     /**
@@ -34,18 +45,22 @@ class PraticienController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        $praticien = new Praticien();
+        if (Auth::user()->isA('admin')) {
 
-        $praticien->nom = $data['nom'];
-        $praticien->job = $data['job'];
-        $praticien->type_id = $data['type_id'];
+            $data = $request->all();
+            $praticien = new Praticien();
 
-        $praticien->save();
+            $praticien->nom = $data['nom'];
+            $praticien->job = $data['job'];
+            $praticien->type_id = $data['type_id'];
 
-        session()->flash('message', ['type' => 'success', 'text' => __('praticien crée avec succès.')]);
+            $praticien->save();
+            session()->flash('message', ['type' => 'success', 'text' => __('praticien créé avec succès.')]);
 
-        return redirect()->route('praticien.index');
+            return redirect()->route('praticien.index');
+        } else {
+            abort(401);
+        }
     }
 
     /**
@@ -59,48 +74,72 @@ class PraticienController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(praticien $praticien)
+    public function edit(Praticien $praticien)
     {
-        $types = Type::all();
+        if (Auth::user()->isA('admin')) {
 
-        return view('praticien.edit',compact('types', 'praticien'));
+            $types = Type::all();
+
+            return view('praticien.edit', compact('types', 'praticien'));
+        } else {
+            abort(401);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, praticien $praticien)
+    public function update(Request $request, Praticien $praticien)
     {
-        $data = $request->all();
-        $praticien = Praticien::findOrFail($praticien->id);
+        if (Auth::user()->isA('admin')) {
 
-        $praticien->nom = $data['nom'];
-        $praticien->job = $data['job'];
-        $praticien->type_id = $data['type_id'];
+            $data = $request->all();
+            $praticien = Praticien::findOrFail($praticien->id);
 
-        $praticien->save();
+            $praticien->nom = $data['nom'];
+            $praticien->job = $data['job'];
+            $praticien->type_id = $data['type_id'];
 
-        session()->flash('message', ['type' => 'success', 'text' => __('praticien modifié avec succès.')]);
+            $praticien->save();
 
-        return redirect()->route('praticien.index');
+            session()->flash('message', ['type' => 'success', 'text' => __('praticien modifié avec succès.')]);
+
+            return redirect()->route('praticien.index');
+        } else {
+            abort(401);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(praticien $praticien)
+    public function destroy(Praticien $praticien)
     {
-        $praticien->delete();
-        session()->flash('message', ['type' => 'success', 'text' => __('praticien supprimé avec succès.')]);
-        return redirect()->route('praticien.index');
+        if (Auth::user()->isA('admin')) {
+
+            $praticien->delete();
+            session()->flash('message', ['type' => 'success', 'text' => __('praticien supprimé avec succès.')]);
+
+            return redirect()->route('praticien.index');
+        } else {
+            abort(401);
+        }
     }
 
-
+    /**
+     * Restore a soft-deleted resource.
+     */
     public function restore($id)
     {
-        $praticien = Praticien::withTrashed()->findOrFail($id);
-        $praticien->restore();
-        session()->flash('message', ['type' => 'success', 'text' => __('praticien restauré avec succès.')]);
-        return redirect()->route('praticien.index');
+        if (Auth::user()->isA('admin')) {
+
+            $praticien = Praticien::withTrashed()->findOrFail($id);
+            $praticien->restore();
+
+            session()->flash('message', ['type' => 'success', 'text' => __('praticien restauré avec succès.')]);
+            return redirect()->route('praticien.index');
+        } else {
+            abort(401);
+        }
     }
 }

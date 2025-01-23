@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\consultation;
+use App\Models\Consultation;
 use App\Models\Medicament;
 use App\Models\Praticien;
 use App\Models\Prescription;
 use App\Models\Type;
 use App\Models\User;
-use Silber\Bouncer\BouncerFacade as Bouncer;
-use Database\Seeders\PrescriptionMedicamentSeeder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -25,7 +23,7 @@ class ConsultationController extends Controller
         $consultations = Consultation::withTrashed()->get();
         $users = User::withTrashed()->get();
 
-        return view('consultation.index', compact('consultations','users'));
+        return view('consultation.index', compact('consultations', 'users'));
     }
 
     /**
@@ -55,8 +53,7 @@ class ConsultationController extends Controller
 
         if($data['date_consultation'] < now() ){
             $consultation->retard = 0;
-
-        } elseif($data['date_consultation'] >= now() ){
+        } else{
             $consultation->retard = 1;
         }
 
@@ -66,10 +63,9 @@ class ConsultationController extends Controller
             $consultation->statu = 'attente';
         }
 
-
         $consultation->save();
 
-        session()->flash('message', ['type' => 'success', 'text' => __('consultation crée avec succès.')]);
+        session()->flash('message', ['type' => 'success', 'text' => __('consultation créée avec succès.')]);
 
         return redirect()->route('consultation.index');
     }
@@ -77,76 +73,95 @@ class ConsultationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(consultation $consultation)
+    public function show(Consultation $consultation)
     {
-        $medicaments = Medicament::withTrashed()->get();
-        $prescriptions = Prescription::where('consultation_id', $consultation->id)->with(['medicament'])->withTrashed()->get();
-        $users = User::withTrashed()->get();
+        if (Auth::user()->isA('admin') || Auth::user()->isA('praticien') || Auth::user()->id === $consultation->user_id) {
+            $medicaments = Medicament::withTrashed()->get();
+            $prescriptions = Prescription::where('consultation_id', $consultation->id)->with(['medicament'])->withTrashed()->get();
+            $users = User::withTrashed()->get();
 
-        return view('consultation.show', compact('consultation', 'medicaments', 'prescriptions', 'users'));
+            return view('consultation.show', compact('consultation', 'medicaments', 'prescriptions', 'users'));
+        } else {
+            abort(401);
+        }
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(consultation $consultation)
+    public function edit(Consultation $consultation)
     {
-        $types = Type::all();
-        $users = User::all();
-        $praticiens = Praticien::all();
+        if (Auth::user()->isA('admin') || Auth::user()->isA('praticien')) {
 
-        return view('consultation.edit', compact('types', 'users', 'praticiens', 'consultation'));
+            $types = Type::all();
+            $users = User::all();
+            $praticiens = Praticien::all();
+
+            return view('consultation.edit', compact('types', 'users', 'praticiens', 'consultation'));
+        } else {
+            abort(401);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, consultation $consultation)
+    public function update(Request $request, Consultation $consultation)
     {
-        $data = $request->all();
-        $consultation = Consultation::findOrFail($consultation->id);
+        if (Auth::user()->isA('admin') || Auth::user()->isA('praticien')) {
 
-        $consultation->date_consultation = $data['date_consultation'];
-        $consultation->statu = $data['statu'];
-        $consultation->type_id = $data['type_id'];
-        $consultation->user_id = $data['user_id'];
-        $consultation->praticien_id = $data['praticien_id'];
+            $data = $request->all();
 
-        if($data['date_consultation'] < now() ){
+            $consultation->date_consultation = $data['date_consultation'];
+            $consultation->statu = $data['statu'];
+            $consultation->type_id = $data['type_id'];
+            $consultation->user_id = $data['user_id'];
+            $consultation->praticien_id = $data['praticien_id'];
 
-            $consultation->retard = 0;
+            $consultation->retard = $data['date_consultation'] < now() ? 0 : 1;
 
-        } elseif($data['date_consultation'] >= now() ){
+            $consultation->save();
 
-            $consultation->retard = 1;
+            session()->flash('message', ['type' => 'success', 'text' => __('consultation modifiée avec succès.')]);
 
+            return redirect()->route('consultation.index');
+        } else {
+            abort(401);
         }
-
-
-        $consultation->save();
-
-        session()->flash('message', ['type' => 'success', 'text' => __(key: 'consultation modifié avec succès.')]);
-
-        return redirect()->route('consultation.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(consultation $consultation)
+    public function destroy(Consultation $consultation)
     {
-        $consultation->delete();
-        session()->flash('message', ['type' => 'success', 'text' => __('Consultation supprimé avec succès.')]);
-        return redirect()->route('consultation.index');
+        if (Auth::user()->isA('admin') || Auth::user()->isA('praticien')) {
+
+            $consultation->delete();
+            session()->flash('message', ['type' => 'success', 'text' => __('Consultation supprimée avec succès.')]);
+
+            return redirect()->route('consultation.index');
+        } else {
+            abort(401);
+        }
     }
 
-
+    /**
+     * Restore a soft-deleted resource.
+     */
     public function restore($id)
     {
-        $consultation = Consultation::withTrashed()->findOrFail($id);
-        $consultation->restore();
-        session()->flash('message', ['type' => 'success', 'text' => __('Consultation restoré avec succès.')]);
-        return redirect()->route('consultation.index');
+        if (Auth::user()->isA('admin') || Auth::user()->isA('praticien')) {
+
+            $consultation = Consultation::withTrashed()->findOrFail($id);
+            $consultation->restore();
+
+            session()->flash('message', ['type' => 'success', 'text' => __('Consultation restaurée avec succès.')]);
+
+            return redirect()->route('consultation.index');
+        } else {
+            abort(401);
+        }
     }
 
     public function demande(Consultation $consultation): View
@@ -158,11 +173,16 @@ class ConsultationController extends Controller
 
     public function statu(Request $request, Consultation $consultation): RedirectResponse
     {
-        $data = $request->all();
+        if (Auth::user()->isA('admin') || Auth::user()->isA('praticien')) {
 
-        $consultation->statu = $data['statu'];
-        $consultation->save();
+            $data = $request->all();
 
-        return redirect()->route(route: 'consultation.demande');
+            $consultation->statu = $data['statu'];
+            $consultation->save();
+
+            return redirect()->route('consultation.demande');
+        } else {
+            abort(401);
+        }
     }
 }

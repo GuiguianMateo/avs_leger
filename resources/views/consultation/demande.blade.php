@@ -32,31 +32,35 @@
                     </thead>
                     <tbody class="divide-y divide-gray-200">
                         @forelse ($consultations as $consultation)
-                            @if($consultation->statu == 'attente')
-                                <tr class="hover:bg-gray-50 transition-all duration-150">
-                                    <td class="py-3 px-4">{{ $consultation->user->nom }}</td>
-                                    <td class="py-3 px-4">{{ $consultation->user->prenom }}</td>
-                                    <td class="py-3 px-4">{{ $consultation->date_consultation }}</td>
-                                    <td class="py-3 px-4">{{ $consultation->statu }}</td>
-                                    <td class="py-3 px-4 text-center">
-                                        <div class="inline-flex gap-2">
-                                            <a class="px-3 py-2 rounded bg-blue-500 text-white shadow hover:bg-blue-600 transition-all duration-200"
-                                            href="{{ route('consultation.show', $consultation) }}">{{ __("Détails") }}</a>
-                                            <form action="{{ route('consultation.statu', $consultation) }}" method="post">
-                                                @csrf
-                                                @method('get')
-                                                <input type="hidden" name="statu" value="valide">
-                                                <button type="submit" class="px-3 py-2 rounded bg-green-500 text-white shadow hover:bg-green-600 transition-all duration-200">{{ __("Valider") }}</button>
-                                            </form>
-                                            <form action="{{ route('consultation.statu', $consultation) }}" method="post">
-                                                @csrf
-                                                @method('get')
-                                                <input type="hidden" name="statu" value="rejete">
-                                                <button type="submit" class="px-3 py-2 rounded bg-red-500 text-white shadow hover:bg-red-600 transition-all duration-200">{{ __("Rejeter") }}</button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
+                            @if(Auth::user()->isA('admin') || Auth::user()->isA('praticien') || Auth::user()->id === $consultation->user_id)
+                                @if($consultation->statu == 'attente')
+                                    <tr class="hover:bg-gray-50 transition-all duration-150">
+                                        <td class="py-3 px-4">{{ $consultation->user->nom }}</td>
+                                        <td class="py-3 px-4">{{ $consultation->user->prenom }}</td>
+                                        <td class="py-3 px-4">{{ $consultation->date_consultation }}</td>
+                                        <td class="py-3 px-4">{{ $consultation->statu }}</td>
+                                        <td class="py-3 px-4 text-center">
+                                            <div class="inline-flex gap-2">
+                                                <a class="px-3 py-2 rounded bg-blue-500 text-white shadow hover:bg-blue-600 transition-all duration-200"
+                                                href="{{ route('consultation.show', $consultation) }}">{{ __("Détails") }}</a>
+                                                @if(Auth::user()->isA('admin') || Auth::user()->isA('praticien'))
+                                                    <form action="{{ route('consultation.statu', $consultation) }}" method="post">
+                                                        @csrf
+                                                        @method('get')
+                                                        <input type="hidden" name="statu" value="valide">
+                                                        <button type="submit" class="px-3 py-2 rounded bg-green-500 text-white shadow hover:bg-green-600 transition-all duration-200">{{ __("Valider") }}</button>
+                                                    </form>
+                                                    <form action="{{ route('consultation.statu', $consultation) }}" method="post">
+                                                        @csrf
+                                                        @method('get')
+                                                        <input type="hidden" name="statu" value="rejete">
+                                                        <button type="submit" class="px-3 py-2 rounded bg-red-500 text-white shadow hover:bg-red-600 transition-all duration-200">{{ __("Rejeter") }}</button>
+                                                    </form>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endif
                             @endif
                         @empty
                             <tr>

@@ -28,6 +28,13 @@ class UserSeeder extends Seeder
             'password' => Hash::make('praticien'),
         ]);
 
+        User::create([
+            'nom' => 'User',
+            'prenom' => 'User',
+            'email' => 'user@gmail.com',
+            'password' => Hash::make('useruser'),
+        ]);
+
         Bouncer::allow('admin')->to([
             'absence-restore',
         ]);

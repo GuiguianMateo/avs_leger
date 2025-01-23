@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Consultation;
 use App\Models\Medicament;
-use App\Models\prescription;
-use App\Models\User;
+use App\Models\Prescription;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PrescriptionController extends Controller
 {
@@ -23,11 +23,16 @@ class PrescriptionController extends Controller
      */
     public function create(Request $request)
     {
-        $id = $request->query('consultation');
-        $consultation = Consultation::findOrFail($id);
-        $medicaments = Medicament::all();
+        if (Auth::user()->isA('admin') || Auth::user()->isA('praticien')) {
 
-        return view('prescription.create', compact('consultation', 'medicaments'));
+            $id = $request->query('consultation');
+            $consultation = Consultation::findOrFail($id);
+            $medicaments = Medicament::all();
+
+            return view('prescription.create', compact('consultation', 'medicaments'));
+        } else {
+            abort(401);
+        }
     }
 
     /**
@@ -35,38 +40,42 @@ class PrescriptionController extends Controller
      */
     public function store(Request $request)
     {
-        $pgcd = function ($a, $b) {
-            while ($b != 0) {
-                $temp = $b;
-                $b = $a % $b;
-                $a = $temp;
-            }
-            return $a;
-        };
+        if (Auth::user()->isA('admin') || Auth::user()->isA('praticien')) {
 
-        $data = $request->all();
+            $pgcd = function ($a, $b) {
+                while ($b != 0) {
+                    $temp = $b;
+                    $b = $a % $b;
+                    $a = $temp;
+                }
+                return $a;
+            };
 
-        $duree = $data['duree'];
-        $quantite = $data['quantite'];
-        $divisor = $pgcd($quantite, $duree);
-        $numerator = $quantite / $divisor;
-        $denominator = $duree / $divisor;
+            $data = $request->all();
 
+            $duree = $data['duree'];
+            $quantite = $data['quantite'];
+            $divisor = $pgcd($quantite, $duree);
+            $numerator = $quantite / $divisor;
+            $denominator = $duree / $divisor;
 
-        $prescription = new Prescription();
+            $prescription = new Prescription();
 
-        $prescription->quantite = $data['quantite'];
-        $prescription->duree = $data['duree'];
-        $prescription->detail = $data['detail'];
-        $prescription->consultation_id = $data['consultation_id'];
-        $prescription->medicament_id = $data['medicament_id'];
-        $prescription->ratio = $numerator . '/' . $denominator;
+            $prescription->quantite = $data['quantite'];
+            $prescription->duree = $data['duree'];
+            $prescription->detail = $data['detail'];
+            $prescription->consultation_id = $data['consultation_id'];
+            $prescription->medicament_id = $data['medicament_id'];
+            $prescription->ratio = $numerator . '/' . $denominator;
 
-        $prescription->save();
+            $prescription->save();
 
-        session()->flash('message', ['type' => 'success', 'text' => __('prescription crée avec succès.')]);
+            session()->flash('message', ['type' => 'success', 'text' => __('prescription créée avec succès.')]);
 
-        return redirect()->route('consultation.show', ['consultation' => $data['consultation_id']]);
+            return redirect()->route('consultation.show', ['consultation' => $data['consultation_id']]);
+        } else {
+            abort(401);
+        }
     }
 
     /**
@@ -80,50 +89,57 @@ class PrescriptionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(prescription $prescription)
+    public function edit(Prescription $prescription)
     {
-        $consultations = Consultation::all();
-        $medicaments = Medicament::all();
+        if (Auth::user()->isA('admin') || Auth::user()->isA('praticien')) {
 
-        return view('prescription.edit', compact('consultations', 'medicaments', 'prescription'));
+            $consultations = Consultation::all();
+            $medicaments = Medicament::all();
+
+            return view('prescription.edit', compact('consultations', 'medicaments', 'prescription'));
+        } else {
+            abort(401);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, prescription $prescription)
+    public function update(Request $request, Prescription $prescription)
     {
+        if (Auth::user()->isA('admin') || Auth::user()->isA('praticien')) {
 
-        $pgcd = function ($a, $b) {
-            while ($b != 0) {
-                $temp = $b;
-                $b = $a % $b;
-                $a = $temp;
-            }
-            return $a;
-        };
+            $pgcd = function ($a, $b) {
+                while ($b != 0) {
+                    $temp = $b;
+                    $b = $a % $b;
+                    $a = $temp;
+                }
+                return $a;
+            };
 
-        $data = $request->all();
+            $data = $request->all();
 
+            $duree = $data['duree'];
+            $quantite = $data['quantite'];
+            $divisor = $pgcd($quantite, $duree);
+            $numerator = $quantite / $divisor;
+            $denominator = $duree / $divisor;
 
-        $duree = $data['duree'];
-        $quantite = $data['quantite'];
-        $divisor = $pgcd($quantite, $duree);
-        $numerator = $quantite / $divisor;
-        $denominator = $duree / $divisor;
+            $prescription->quantite = $data['quantite'];
+            $prescription->duree = $data['duree'];
+            $prescription->detail = $data['detail'];
+            $prescription->medicament_id = $data['medicament_id'];
+            $prescription->ratio = $numerator . '/' . $denominator;
 
-        $prescription->quantite = $data['quantite'];
-        $prescription->duree = $data['duree'];
-        $prescription->detail = $data['detail'];
-        $prescription->medicament_id = $data['medicament_id'];
-        $prescription->ratio = $numerator . '/' . $denominator;
+            $prescription->save();
 
-        $prescription->save();
+            session()->flash('message', ['type' => 'success', 'text' => __('Prescription modifiée avec succès.')]);
 
-        session()->flash('message', ['type' => 'success', 'text' => __('Prescription modifiée avec succès.')]);
-
-        return redirect()->route('consultation.show', ['consultation' => $prescription->consultation_id]);
-
+            return redirect()->route('consultation.show', ['consultation' => $prescription->consultation_id]);
+        } else {
+            abort(401);
+        }
     }
 
     /**
@@ -131,18 +147,33 @@ class PrescriptionController extends Controller
      */
     public function destroy(Prescription $prescription)
     {
-        $consultationId = $prescription->consultation_id; // Récupérer l'ID de la consultation
-        $prescription->delete();
-        session()->flash('message', ['type' => 'success', 'text' => __('Prescription supprimée avec succès.')]);
-        return redirect()->route('consultation.show', ['consultation' => $consultationId]);
+        if (Auth::user()->isA('admin') || Auth::user()->isA('praticien')) {
+
+            $consultationId = $prescription->consultation_id;
+            $prescription->delete();
+
+            session()->flash('message', ['type' => 'success', 'text' => __('Prescription supprimée avec succès.')]);
+            return redirect()->route('consultation.show', ['consultation' => $consultationId]);
+        } else {
+            abort(401);
+        }
     }
 
+    /**
+     * Restore a soft-deleted resource.
+     */
     public function restore($id)
     {
-        $prescription = Prescription::withTrashed()->findOrFail($id);
-        $consultationId = $prescription->consultation_id; // Récupérer l'ID de la consultation
-        $prescription->restore();
-        session()->flash('message', ['type' => 'success', 'text' => __('Prescription restaurée avec succès.')]);
-        return redirect()->route('consultation.show', ['consultation' => $consultationId]);
+        if (Auth::user()->isA('admin') || Auth::user()->isA('praticien')) {
+
+            $prescription = Prescription::withTrashed()->findOrFail($id);
+            $consultationId = $prescription->consultation_id;
+            $prescription->restore();
+
+            session()->flash('message', ['type' => 'success', 'text' => __('Prescription restaurée avec succès.')]);
+            return redirect()->route('consultation.show', ['consultation' => $consultationId]);
+        } else {
+            abort(401);
+        }
     }
 }

@@ -52,12 +52,15 @@
 
                     <h1 class="text-xl font-extrabold text-gray-800">{{ __("Prescriptions") }}</h1>
 
-                    <div class="flex-none ml-4">
-                        <a class="p-3 px-6 rounded-full bg-gradient-to-r from-blue-400 to-blue-600 text-white font-semibold shadow hover:from-blue-500 hover:to-blue-700 transition-all duration-200"
-                            href="{{ route('prescription.create', ['consultation' => $consultation->id]) }}">
-                            {{ __("Ajouter une Prescription") }}
-                        </a>
-                    </div>
+                    @if(Auth::user()->isA('admin') || Auth::user()->isA('praticien'))
+                        <div class="flex-none ml-4">
+                            <a class="p-3 px-6 rounded-full bg-gradient-to-r from-blue-400 to-blue-600 text-white font-semibold shadow hover:from-blue-500 hover:to-blue-700 transition-all duration-200"
+                                href="{{ route('prescription.create', ['consultation' => $consultation->id]) }}">
+                                {{ __("Ajouter une Prescription") }}
+                            </a>
+                        </div>
+                    @endif
+
                 </div>
 
                 <div class="overflow-hidden rounded-lg border border-gray-300 shadow-sm mt-6">
