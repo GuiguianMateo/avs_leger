@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ConsultationController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\PraticienController;
 use App\Http\Controllers\PrescriptionController;
 use App\Http\Controllers\ProfileController;
@@ -29,7 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/demande', [ConsultationController::class, 'demande'])->name('consultation.demande');
     Route::get('/statu/{consultation}/statu', [ConsultationController::class, 'statu'])->name('consultation.statu');
 
-    // Route::get('language/{code_iso}', [LanguageController::class, 'change'])->name('language.change');
+    Route::get('language/{code_iso}', [LanguageController::class, 'change'])->name('language.change');
 });
 
 require __DIR__.'/auth.php';
