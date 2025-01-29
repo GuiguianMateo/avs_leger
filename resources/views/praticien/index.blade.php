@@ -18,17 +18,17 @@
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-3xl font-extrabold text-gray-800">{{ __("Liste des Praticiens") }}</h1>
                 <a class="p-3 px-6 rounded-full bg-gradient-to-r from-green-400 to-green-600 text-white font-semibold shadow hover:from-green-500 hover:to-green-700 transition-all duration-200"
-                   href="{{ route('praticien.create') }}">{{ __("Ajouter un praticien") }}</a>
+                   href="{{ route('praticien.create') }}">{{ __("Ajouter un Praticien") }}</a>
             </div>
 
             <div class="overflow-hidden rounded-lg border border-gray-300 shadow-sm">
                 <table class="w-full text-left border-collapse">
                     <thead class="bg-gradient-to-r from-gray-200 to-gray-300">
                         <tr class="text-gray-800">
-                            <th class="py-3 px-4 border-b">Nom Praticien</th>
-                            <th class="py-3 px-4 border-b">Profession</th>
-                            <th class="py-3 px-4 border-b">Catégorie medicinale</th>
-                            <th class="py-3 px-4 border-b text-center">Actions</th>
+                            <th class="py-3 px-4 border-b">{{ __("Nom Praticien") }}</th>
+                            <th class="py-3 px-4 border-b">{{ __("Profession") }}</th>
+                            <th class="py-3 px-4 border-b">{{ __("Catégorie medicinale") }}</th>
+                            <th class="py-3 px-4 border-b text-center">{{ __("Actions") }}</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
@@ -65,7 +65,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="py-6 px-4 text-center text-gray-500">{{ __('Aucune praticien trouvée.') }}</td>
+                                <td colspan="5" class="py-6 px-4 text-center text-gray-500">{{ __('Aucun praticien trouvée.') }}</td>
                             </tr>
                         @endforelse
                     </tbody>

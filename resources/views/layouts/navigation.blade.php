@@ -12,11 +12,11 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <a class="inline-flex items-center px-1 pt-1 border-b-2 hover:border-indigo-400 text-xs sm:text-sm font-medium leading-5 text-gray-900 focus:border-indigo-700 transition duration-150 ease-in-out" href="{{ route('consultation.index') }}">Consultations</a>
+                    <a class="inline-flex items-center px-1 pt-1 border-b-2 hover:border-indigo-400 text-xs sm:text-sm font-medium leading-5 text-gray-900 focus:border-indigo-700 transition duration-150 ease-in-out" href="{{ route('consultation.index') }}">{{ __("Consultations") }}</a>
                     @if(Auth::user()->isA('admin'))
-                        <a class="inline-flex items-center px-1 pt-1 border-b-2 hover:border-indigo-400 text-xs sm:text-sm font-medium leading-5 text-gray-900 focus:border-indigo-700 transition duration-150 ease-in-out" href="{{ route('praticien.index') }}">Praticien</a>
+                        <a class="inline-flex items-center px-1 pt-1 border-b-2 hover:border-indigo-400 text-xs sm:text-sm font-medium leading-5 text-gray-900 focus:border-indigo-700 transition duration-150 ease-in-out" href="{{ route('praticien.index') }}">{{ __("Praticiens") }}</a>
                     @endif
-                    <a class="inline-flex items-center px-1 pt-1 border-b-2 hover:border-indigo-400 text-xs sm:text-sm font-medium leading-5 text-gray-900 focus:border-indigo-700 transition duration-150 ease-in-out" href="{{ route('consultation.demande') }}">Demandes</a>
+                    <a class="inline-flex items-center px-1 pt-1 border-b-2 hover:border-indigo-400 text-xs sm:text-sm font-medium leading-5 text-gray-900 focus:border-indigo-700 transition duration-150 ease-in-out" href="{{ route('consultation.demande') }}">{{ __("Demandes") }}</a>
                 </div>
             </div>
 

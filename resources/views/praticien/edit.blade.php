@@ -3,7 +3,7 @@
 @section('content')
     <div class="bg-gray-100 min-h-screen p-6">
         <div class="w-11/12 max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
-            <h1 class="text-3xl font-bold mb-4">{{ __("Modifier un praticien") }}</h1>
+            <h1 class="text-3xl font-bold mb-4">{{ __("Modifier un Praticien") }}</h1>
 
             <form action="{{ route('praticien.update', $praticien->id) }}" method="POST" class="space-y-4">
                 @csrf

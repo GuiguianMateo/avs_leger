@@ -55,7 +55,7 @@ class PraticienController extends Controller
             $praticien->type_id = $data['type_id'];
 
             $praticien->save();
-            session()->flash('message', ['type' => 'success', 'text' => __('praticien créé avec succès.')]);
+            session()->flash('message', ['type' => 'success', 'text' => __('Praticien créée avec succès.')]);
 
             return redirect()->route('praticien.index');
         } else {
@@ -102,7 +102,7 @@ class PraticienController extends Controller
 
             $praticien->save();
 
-            session()->flash('message', ['type' => 'success', 'text' => __('praticien modifié avec succès.')]);
+            session()->flash('message', ['type' => 'success', 'text' => __('Praticien modifiée avec succès.')]);
 
             return redirect()->route('praticien.index');
         } else {
@@ -118,7 +118,7 @@ class PraticienController extends Controller
         if (Auth::user()->isA('admin')) {
 
             $praticien->delete();
-            session()->flash('message', ['type' => 'success', 'text' => __('praticien supprimé avec succès.')]);
+            session()->flash('message', ['type' => 'success', 'text' => __('Praticien supprimée avec succès.')]);
 
             return redirect()->route('praticien.index');
         } else {
@@ -136,7 +136,7 @@ class PraticienController extends Controller
             $praticien = Praticien::withTrashed()->findOrFail($id);
             $praticien->restore();
 
-            session()->flash('message', ['type' => 'success', 'text' => __('praticien restauré avec succès.')]);
+            session()->flash('message', ['type' => 'success', 'text' => __('Praticien restaurée avec succès.')]);
             return redirect()->route('praticien.index');
         } else {
             abort(401);

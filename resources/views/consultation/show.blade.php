@@ -19,15 +19,15 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 shadow-sm">
                     <h2 class="text-lg font-semibold text-gray-700 mb-4">{{ __('Informations du Client') }}</h2>
-                    <p class="text-gray-600"><strong>{{ __('Nom :') }}</strong> {{ $consultation->user->nom }}</p>
-                    <p class="text-gray-600"><strong>{{ __('Prénom :') }}</strong> {{ $consultation->user->prenom }}</p>
+                    <p class="text-gray-600"><strong>{{ __('Nom') }} :</strong> {{ $consultation->user->nom }}</p>
+                    <p class="text-gray-600"><strong>{{ __('Prénom') }} :</strong> {{ $consultation->user->prenom }}</p>
                 </div>
 
                 <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 shadow-sm">
                     <h2 class="text-lg font-semibold text-gray-700 mb-4">{{ __('Informations de la Consultation') }}</h2>
-                    <p class="text-gray-600"><strong>{{ __('Date :') }}</strong> {{ $consultation->date_consultation }}</p>
-                    <p class="text-gray-600"><strong>{{ __('Type :') }}</strong> {{ $consultation->type->nom }}</p>
-                    <p class="text-gray-600"><strong>{{ __('Praticien :') }}</strong> {{ $consultation->praticien->nom }}</p>
+                    <p class="text-gray-600"><strong>{{ __('Date') }} :</strong> {{ $consultation->date_consultation }}</p>
+                    <p class="text-gray-600"><strong>{{ __('Type') }} :</strong> {{ $consultation->type->nom }}</p>
+                    <p class="text-gray-600"><strong>{{ __('Praticien') }} :</strong> {{ $consultation->praticien->nom }}</p>
                 </div>
             </div>
 
@@ -35,13 +35,13 @@
             <div class="flex-1 bg-gray-50 border border-gray-200 rounded-lg p-6 mt-6 shadow-sm">
                 <h2 class="text-lg font-semibold text-gray-700 mb-4">{{ __('Autres Informations') }}</h2>
                 <p class="text-gray-600">
-                    <strong>{{ __('Statut :') }}</strong>
+                    <strong>{{ __('Statu') }} :</strong>
                     <span class="{{ $consultation->statu === 'valide' ? 'text-green-500' : ($consultation->statu === 'rejete' ? 'text-red-500' : 'text-yellow-500') }}">
                         {{ ucfirst($consultation->statu) }}
                     </span>
                 </p>
                 <p class="text-gray-600">
-                    <strong>{{ __('En retard :') }}</strong>
+                    <strong>{{ __('En retard') }} :</strong>
                     <span>{{ $consultation->retard ? __('Oui') : __('Non') }}</span>
                 </p>
             </div>
@@ -67,12 +67,12 @@
                     <table class="w-full text-left border-collapse">
                         <thead class="bg-gradient-to-r from-gray-200 to-gray-300">
                             <tr class="text-gray-800">
-                                <th class="py-3 px-4 border-b">Médicament</th>
-                                <th class="py-3 px-4 border-b">Début traitement</th>
-                                <th class="py-3 px-4 border-b text-center">Quantité</th>
-                                <th class="py-3 px-4 border-b text-center">Durée</th>
-                                <th class="py-3 px-4 border-b text-center">Ratio</th>
-                                <th class="py-3 px-4 border-b text-center">Actions</th>
+                                <th class="py-3 px-4 border-b">{{ __("Médicament") }}</th>
+                                <th class="py-3 px-4 border-b">{{ __("Début traitement") }}</th>
+                                <th class="py-3 px-4 border-b text-center">{{ __("Quantité") }}</th>
+                                <th class="py-3 px-4 border-b text-center">{{ __("Durée") }}</th>
+                                <th class="py-3 px-4 border-b text-center">{{ __("Ratio") }}</th>
+                                <th class="py-3 px-4 border-b text-center">{{ __("Actions") }}</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">
@@ -82,7 +82,7 @@
                                         <td class="py-3 px-4">{{ $prescription->medicament->nom }}</td>
                                         <td class="py-3 px-4">{{ $prescription->created_at ? $prescription->created_at->format('d/m/Y') : __('Aucune info recensée') }}</td>
                                         <td class="py-3 px-4 text-center">{{ $prescription->quantite }}</td>
-                                        <td class="py-3 px-4 text-center">{{ $prescription->duree }} jours</td>
+                                        <td class="py-3 px-4 text-center">{{ $prescription->duree }} {{ __("jours") }}</td>
                                         <td class="py-3 px-4 text-center">{{ $prescription->ratio }}</td>
                                         <td class="py-3 px-4 text-center">
                                             <div class="inline-flex gap-2">

@@ -25,11 +25,11 @@
                 <table class="w-full text-left border-collapse">
                     <thead class="bg-gradient-to-r from-gray-200 to-gray-300">
                         <tr class="text-gray-800">
-                            <th class="py-3 px-4 border-b">Nom Client</th>
-                            <th class="py-3 px-4 border-b">Prenom Client</th>
-                            <th class="py-3 px-4 border-b">Date de Consultation</th>
-                            <th class="py-3 px-4 border-b">Statu</th>
-                            <th class="py-3 px-4 border-b text-center">Actions</th>
+                            <th class="py-3 px-4 border-b">{{ __("Nom Client") }}</th>
+                            <th class="py-3 px-4 border-b">{{ __("Prenom Client") }}</th>
+                            <th class="py-3 px-4 border-b">{{ __("Date de Consultation") }}</th>
+                            <th class="py-3 px-4 border-b">{{ __("Statu") }}</th>
+                            <th class="py-3 px-4 border-b text-center">{{ __("Actions") }}</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">

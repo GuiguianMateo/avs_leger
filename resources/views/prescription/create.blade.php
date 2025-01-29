@@ -3,7 +3,7 @@
 @section('content')
     <div class="bg-gray-100 min-h-screen p-6">
         <div class="w-11/12 max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
-            <h1 class="text-3xl font-bold mb-4">{{ __("Ajouter une prescription") }}</h1>
+            <h1 class="text-3xl font-bold mb-4">{{ __("Ajouter une Prescription") }}</h1>
 
             <form action="{{ route('prescription.store') }}" method="POST" class="space-y-4">
                 @csrf
@@ -12,7 +12,7 @@
                     <label for="medicament_id" class="block font-medium text-gray-700">{{ __("Médicament") }}</label>
                     <select name="medicament_id" id="medicament_id"
                             class="w-full mt-2 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
-                            <option value="">{{ "Veuillez selectionner un medicament pour la prescription" }}</option>
+                            <option value="">{{ __("Veuillez selectionner un medicament pour la prescription") }}</option>
                         @foreach($medicaments as $medicament)
                             <option value="{{ $medicament->id }}" {{ old('medicament_id') == $medicament->id ? 'selected' : '' }}>
                                 {{ $medicament->nom }}
@@ -22,7 +22,7 @@
                 </div>
 
                 <div>
-                    <label for="quantite" class="block font-medium text-gray-700">{{ __("quantite de médicament") }}</label>
+                    <label for="quantite" class="block font-medium text-gray-700">{{ __("Quantitée de médicament") }}</label>
 
                     <input type="number" aria-valuemin="0" aria-valuemax="90" class="w-full mt-2 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" name="quantite">
                     @error("quantite")
@@ -41,7 +41,7 @@
 
 
                 <div>
-                    <label for="detail" class="block font-medium text-gray-700">{{ __("Note suplémentaire") }}</label>
+                    <label for="detail" class="block font-medium text-gray-700">{{ __("Note supplémentaire") }}</label>
 
                     <input type="text" aria-valuemin="0" aria-valuemax="90" class="w-full mt-2 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" name="detail">
                     @error("detail")

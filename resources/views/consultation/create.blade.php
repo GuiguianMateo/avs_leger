@@ -20,7 +20,7 @@
                     <label for="type_id" class="block font-medium text-gray-700">{{ __("Type de Consultation") }}</label>
                     <select name="type_id" id="type_id"
                             class="w-full mt-2 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
-                            <option value="">{{ "Veuillez selectionner un type de consultation" }}</option>
+                            <option value="">{{ __("Veuillez selectionner un type de consultation") }}</option>
                         @foreach($types as $type)
                             <option value="{{ $type->id }}" {{ old('type_id') == $type->id ? 'selected' : '' }}>
                                 {{ $type->nom }}
@@ -34,7 +34,7 @@
                     @if(Auth::user()->isA('admin') || Auth::user()->isA('praticien'))
                         <select name="user_id" id="user_id"
                                 class="w-full mt-2 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
-                            <option value="">{{ "Veuillez selectionner un client" }}</option>
+                            <option value="">{{ __("Veuillez selectionner un client") }}</option>
                             @foreach($users as $user)
                                 <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
                                     {{ $user->nom }} {{ $user->prenom }}
@@ -52,7 +52,7 @@
                     <label for="praticien_id" class="block font-medium text-gray-700">{{ __("Praticien") }}</label>
                     <select name="praticien_id" id="praticien_id"
                             class="w-full mt-2 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
-                            <option value="">{{ "Veuillez selectionner un praticien" }}</option>
+                            <option value="">{{ __("Veuillez selectionner un praticien") }}</option>
                         @foreach($praticiens as $praticien)
                             <option value="{{ $praticien->id }}" {{ old('praticien_id') == $praticien->id ? 'selected' : '' }}>
                                 {{ $praticien->nom }}

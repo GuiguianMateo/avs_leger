@@ -65,7 +65,7 @@ class ConsultationController extends Controller
 
         $consultation->save();
 
-        session()->flash('message', ['type' => 'success', 'text' => __('consultation créée avec succès.')]);
+        session()->flash('message', ['type' => 'success', 'text' => __('Consultation créée avec succès.')]);
 
         return redirect()->route('consultation.index');
     }
@@ -122,7 +122,7 @@ class ConsultationController extends Controller
 
             $consultation->save();
 
-            session()->flash('message', ['type' => 'success', 'text' => __('consultation modifiée avec succès.')]);
+            session()->flash('message', ['type' => 'success', 'text' => __('Consultation modifiée avec succès.')]);
 
             return redirect()->route('consultation.index');
         } else {

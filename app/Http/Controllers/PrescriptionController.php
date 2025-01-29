@@ -70,7 +70,7 @@ class PrescriptionController extends Controller
 
             $prescription->save();
 
-            session()->flash('message', ['type' => 'success', 'text' => __('prescription créée avec succès.')]);
+            session()->flash('message', ['type' => 'success', 'text' => __('Prescription créée avec succès.')]);
 
             return redirect()->route('consultation.show', ['consultation' => $data['consultation_id']]);
         } else {
