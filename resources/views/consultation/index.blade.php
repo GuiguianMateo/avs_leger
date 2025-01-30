@@ -40,7 +40,7 @@
                                         <td class="py-3 px-4">{{ $consultation->user->nom }}</td>
                                         <td class="py-3 px-4">{{ $consultation->user->prenom }}</td>
                                         <td class="py-3 px-4">{{ $consultation->date_consultation }}</td>
-                                        <td class="py-3 px-4">{{ $consultation->statu }}</td>
+                                        <td class="py-3 px-4">{{ __("$consultation->statu") }}</td>
                                         <td class="py-3 px-4 text-center">
                                             <div class="inline-flex gap-2">
                                                 @if ($consultation->deleted_at === null)

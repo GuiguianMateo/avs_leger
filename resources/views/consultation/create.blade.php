@@ -15,7 +15,6 @@
                            value="{{ old('date_consultation') }}" required>
                 </div>
 
-
                 <div>
                     <label for="type_id" class="block font-medium text-gray-700">{{ __("Type de Consultation") }}</label>
                     <select name="type_id" id="type_id"
@@ -28,6 +27,43 @@
                         @endforeach
                     </select>
                 </div>
+
+                <div class="mb-3">
+                    <label for="praticien_id" class="block font-medium text-gray-700">{{ __("Choisir Praticien") }}</label>
+                    <select class="w-full mt-2 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" name="praticien_id" id="praticien_id">
+                        <option value="">{{ __("Veuillez choisir un praticien") }}</option>
+                    </select>
+                    @error('praticien_id')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <script>
+                    document.getElementById('type_id').addEventListener('change', function() {
+                        var typeId = this.value;
+                        var selectPraticien = document.getElementById('praticien_id');
+                        selectPraticien.innerHTML = '<option value="">{{ __("Veuillez choisir un praticien") }}</option>'; // Réinitialisation
+
+                        var options = {!! json_encode($praticiens) !!};
+                        var praticiensFiltres = options.filter(praticien => praticien.type_id == typeId);
+
+                        if (praticiensFiltres.length === 0) {
+                            var option = document.createElement('option');
+                            option.value = "";
+                            option.textContent = "{{ __("Aucun praticien disponible pour ce type") }}";
+                            option.disabled = true;
+                            selectPraticien.appendChild(option);
+                        } else {
+                            praticiensFiltres.forEach(praticien => {
+                                var option = document.createElement('option');
+                                option.value = praticien.id;
+                                option.textContent = praticien.nom;
+                                selectPraticien.appendChild(option);
+                            });
+                        }
+                    });
+                </script>
+
 
                 <div>
                     <label for="user_id" class="block font-medium text-gray-700">{{ __("Nom du Client") }}</label>
@@ -44,21 +80,8 @@
                     @else
                         <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                         <input type="text" id="user_name" class="w-full mt-2 px-4 py-2 border rounded-md bg-gray-100 text-gray-700 cursor-not-allowed"
-                               value="{{ Auth::user()->nom }} {{ Auth::user()->prenom }}" readonly>
+                        value="{{ Auth::user()->nom }} {{ Auth::user()->prenom }}" readonly>
                     @endif
-                </div>
-
-                <div>
-                    <label for="praticien_id" class="block font-medium text-gray-700">{{ __("Praticien") }}</label>
-                    <select name="praticien_id" id="praticien_id"
-                            class="w-full mt-2 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
-                            <option value="">{{ __("Veuillez selectionner un praticien") }}</option>
-                        @foreach($praticiens as $praticien)
-                            <option value="{{ $praticien->id }}" {{ old('praticien_id') == $praticien->id ? 'selected' : '' }}>
-                                {{ $praticien->nom }}
-                            </option>
-                        @endforeach
-                    </select>
                 </div>
 
                 <!-- Bouton -->
@@ -71,4 +94,6 @@
             </form>
         </div>
     </div>
+
+
 @endsection

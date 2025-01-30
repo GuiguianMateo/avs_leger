@@ -42,24 +42,71 @@
                 </div>
 
                 <div>
+                    <label for="praticien_id" class="block font-medium text-gray-700">{{ __("Praticien") }}</label>
+                    <select name="praticien_id" id="praticien_id"
+                            class="w-full mt-2 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                        <option value="">{{ __("Veuillez sélectionner un praticien") }}</option>
+                        @foreach($praticiens as $praticien)
+                            <option value="{{ $praticien->id }}" data-type="{{ $praticien->type_id }}"
+                                {{ old('praticien_id', $consultation->praticien_id) == $praticien->id ? 'selected' : '' }}>
+                                {{ $praticien->nom }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        var typeSelect = document.getElementById('type_id');
+                        var praticienSelect = document.getElementById('praticien_id');
+
+                        function updatePraticiens() {
+                            var selectedTypeId = typeSelect.value;
+                            var selectedPraticienId = praticienSelect.value;
+
+                            // Sauvegarde de l'ancien praticien si encore valide
+                            var praticienExistant = Array.from(praticienSelect.options).find(option => option.value == selectedPraticienId && option.dataset.type == selectedTypeId);
+
+                            praticienSelect.innerHTML = '<option value="">{{ __("Veuillez sélectionner un praticien") }}</option>';
+
+                            var praticiens = {!! json_encode($praticiens) !!};
+                            var praticiensFiltres = praticiens.filter(praticien => praticien.type_id == selectedTypeId);
+
+                            if (praticiensFiltres.length === 0) {
+                                var option = document.createElement('option');
+                                option.value = "";
+                                option.textContent = "{{ __("Aucun praticien disponible pour ce type") }}";
+                                option.disabled = true;
+                                praticienSelect.appendChild(option);
+                            } else {
+                                praticiensFiltres.forEach(praticien => {
+                                    var option = document.createElement('option');
+                                    option.value = praticien.id;
+                                    option.textContent = praticien.nom;
+                                    option.dataset.type = praticien.type_id;
+                                    if (praticienExistant && praticienExistant.value == praticien.id) {
+                                        option.selected = true; // Rétablir l'ancien praticien si encore valide
+                                    }
+                                    praticienSelect.appendChild(option);
+                                });
+                            }
+                        }
+
+                        typeSelect.addEventListener('change', function () {
+                            updatePraticiens();
+                        });
+
+                        updatePraticiens();
+                    });
+                </script>
+
+                <div>
                     <label for="user_id" class="block font-medium text-gray-700">{{ __("Nom du Client") }}</label>
                     <select name="user_id" id="user_id"
                             class="w-full mt-2 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
                         @foreach($users as $user)
                             <option value="{{ $user->id }}" {{ old('user_id', $consultation->user_id) == $user->id ? 'selected' : '' }}>
                                 {{ $user->nom }} {{ $user->prenom }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div>
-                    <label for="praticien_id" class="block font-medium text-gray-700">{{ __("Praticien") }}</label>
-                    <select name="praticien_id" id="praticien_id"
-                            class="w-full mt-2 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
-                        @foreach($praticiens as $praticien)
-                            <option value="{{ $praticien->id }}" {{ old('praticien_id', $consultation->praticien_id) == $praticien->id ? 'selected' : '' }}>
-                                {{ $praticien->nom }}
                             </option>
                         @endforeach
                     </select>
