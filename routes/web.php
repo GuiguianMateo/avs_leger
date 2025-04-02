@@ -5,20 +5,15 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\PraticienController;
 use App\Http\Controllers\PrescriptionController;
 use App\Http\Controllers\ProfileController;
-use App\Models\Consultation;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view( view: 'auth.login');
-});
+Route::get('/', fn() => view('auth.login'))->middleware('guest')->name('login');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
-Route::middleware('auth')->group(function () {
     Route::resource('/consultation', ConsultationController::class)->withTrashed();
     Route::resource('/praticien', PraticienController::class)->withTrashed();
     Route::resource('/prescription',PrescriptionController::class)->withTrashed();
@@ -29,8 +24,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/demande', [ConsultationController::class, 'demande'])->name('consultation.demande');
     Route::get('/statu/{consultation}/statu', [ConsultationController::class, 'statu'])->name('consultation.statu');
-
-    Route::get('language/{code_iso}', [LanguageController::class, 'change'])->name('language.change');
 });
+
+Route::get('language/{code_iso}', [LanguageController::class, 'change'])->name('language.change');
 
 require __DIR__.'/auth.php';
