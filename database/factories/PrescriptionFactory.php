@@ -25,21 +25,10 @@ class PrescriptionFactory extends Factory
             'ratio' => function (array $attributes) {
                 $duree = $attributes['duree'];
                 $quantite = $attributes['quantite'];
+                $nbprjour = round($quantite / $duree, 1);
 
-                $pgcd = function ($a, $b) {
-                    while ($b != 0) {
-                        $temp = $b;
-                        $b = $a % $b;
-                        $a = $temp;
-                    }
-                    return $a;
-                };
+                return $nbprjour .' medicaments par jour';
 
-                $divisor = $pgcd($quantite, $duree);
-                $numerator = $quantite / $divisor;
-                $denominator = $duree / $divisor;
-
-                return $numerator . '/' . $denominator;
             },
             'consultation_id' => Consultation::factory()->create()->id,
             'medicament_id' => Medicament::factory()->create()->id,

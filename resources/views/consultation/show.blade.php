@@ -35,7 +35,7 @@
             <div class="flex-1 bg-gray-50 border border-gray-200 rounded-lg p-6 mt-6 shadow-sm">
                 <h2 class="text-lg font-semibold text-gray-700 mb-4">{{ __('Autres Informations') }}</h2>
                 <p class="text-gray-600">
-                    <strong>{{ __('Statu') }} :</strong>
+                    <strong>{{ __('Statut') }} :</strong>
                     <span class="{{ $consultation->statu === 'valide' ? 'text-green-500' : ($consultation->statu === 'rejete' ? 'text-red-500' : 'text-yellow-500') }}">
                         {{ ucfirst($consultation->statu) }}
                     </span>

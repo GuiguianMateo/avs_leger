@@ -38,7 +38,7 @@ class ConsultationTest extends TestCase
             ->actingAs($user)
             ->get('/consultation/create');
 
-            $response->assertStatus(status: 200);
+            $response->assertStatus(200);
             $response->assertViewIs( 'consultation.create');
 
     }
@@ -134,12 +134,24 @@ class ConsultationTest extends TestCase
         $response->assertStatus(405);
     }
 
+    public function test_user_without_role_can_view_demande() : void
+    {
+        $user = User::factory()->create();
+        Bouncer::refresh();
+
+        $response = $this
+            ->actingAs($user)
+            ->get(uri: '/demande');
+
+        $response->assertStatus(200);
+        $response->assertViewIs('consultation.demande');
+    }
+
     /* --User With Abilities-- */
     public function test_user_with_role_can_create_consultation() : void
     {
         $user = User::factory()->create();
-        Bouncer::assign('employe')->to($user);
-        Bouncer::allow('employe')->to('demande-create');
+        Bouncer::assign('praticien')->to($user);
         Bouncer::refresh();
 
         $response = $this
@@ -150,39 +162,11 @@ class ConsultationTest extends TestCase
     }
 
 
-    // public function test_user_with_role_can_store_consultation() : void
-    // {
-    //     $user = User::factory()->create();
-    //     Bouncer::assign('employe')->to($user);
-    //     Bouncer::allow('employe')->to('demande-create');
-    //     Bouncer::allow('employe')->to('consultation-create');
-    //     Bouncer::refresh();
-
-    //     $praticien = Praticien::factory()->create();
-    //     $type = Type::factory()->create();
-    //     $user = User::factory()->create();
-
-    //     $response = $this
-    //         ->actingAs($user)
-    //         ->post("/consultation", [
-    //             'date' => '2022-12-22',
-    //             'deadline' => '2023-12-22',
-    //             'delay' => '1',
-    //             'type_id' => $type->id,
-    //             'user_id' => $user->id,
-    //             'praticien_id' => $praticien->id,
-    //         ]);
-
-    //     $response->assertStatus(200);
-    //     $response->assertRedirect('/consultation');
-    // }
-
 
     public function test_user_with_role_can_edit_consultation() : void
     {
         $user = User::factory()->create();
-        Bouncer::assign('employe')->to($user);
-        Bouncer::allow('employe')->to('consultation-edit');
+        Bouncer::assign('praticien')->to($user);
         Bouncer::refresh();
 
         $consultation = Consultation::factory()->create();
@@ -197,8 +181,7 @@ class ConsultationTest extends TestCase
     public function test_user_with_role_can_update_consultation() : void
     {
         $user = User::factory()->create();
-        Bouncer::assign('employe')->to($user);
-        Bouncer::allow('employe')->to('consultation-edit');
+        Bouncer::assign('praticien')->to($user);
         Bouncer::refresh();
 
         $consultation = Consultation::factory()->create();
@@ -223,11 +206,18 @@ class ConsultationTest extends TestCase
     public function test_user_with_role_can_delete_consultation() : void
     {
         $user = User::factory()->create();
-        Bouncer::assign('employe')->to($user);
-        Bouncer::allow('employe')->to('consultation-delete');
+        Bouncer::assign('praticien')->to($user);
         Bouncer::refresh();
 
-        $consultation = Consultation::factory()->create();
+
+        $type = Type::factory()->create();
+        $praticien = Praticien::factory()->create();
+
+        $consultation = Consultation::factory()->create([
+            'type_id' => $type->id,
+            'praticien_id' => $praticien->id,
+            'user_id' => $user->id,
+        ]);
 
         $this->assertDatabaseHas('consultations', ['id' => $consultation->id]);
 
@@ -237,7 +227,8 @@ class ConsultationTest extends TestCase
 
         $response->assertRedirect('/consultation');
 
-        $this->assertDatabaseMissing('consultations', ['id' => $consultation->id]);
+        $this->assertSoftDeleted('consultations', ['id' => $consultation->id]);
 
     }
+
 }

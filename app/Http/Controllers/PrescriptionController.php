@@ -42,31 +42,21 @@ class PrescriptionController extends Controller
     {
         if (Auth::user()->isA('admin') || Auth::user()->isA('praticien')) {
 
-            $pgcd = function ($a, $b) {
-                while ($b != 0) {
-                    $temp = $b;
-                    $b = $a % $b;
-                    $a = $temp;
-                }
-                return $a;
-            };
-
             $data = $request->all();
 
             $duree = $data['duree'];
             $quantite = $data['quantite'];
-            $divisor = $pgcd($quantite, $duree);
-            $numerator = $quantite / $divisor;
-            $denominator = $duree / $divisor;
+            $nbprjour = round($quantite / $duree, 1);
 
             $prescription = new Prescription();
 
             $prescription->quantite = $data['quantite'];
             $prescription->duree = $data['duree'];
             $prescription->detail = $data['detail'];
-            $prescription->consultation_id = $data['consultation_id'];
             $prescription->medicament_id = $data['medicament_id'];
-            $prescription->ratio = $numerator . '/' . $denominator;
+            $prescription->consultation_id = $data['consultation_id'];
+
+            $prescription->ratio = $nbprjour .' medicaments par jour';
 
             $prescription->save();
 
@@ -109,28 +99,18 @@ class PrescriptionController extends Controller
     {
         if (Auth::user()->isA('admin') || Auth::user()->isA('praticien')) {
 
-            $pgcd = function ($a, $b) {
-                while ($b != 0) {
-                    $temp = $b;
-                    $b = $a % $b;
-                    $a = $temp;
-                }
-                return $a;
-            };
-
             $data = $request->all();
 
             $duree = $data['duree'];
             $quantite = $data['quantite'];
-            $divisor = $pgcd($quantite, $duree);
-            $numerator = $quantite / $divisor;
-            $denominator = $duree / $divisor;
+            $nbprjour = round($quantite / $duree, 1);
 
             $prescription->quantite = $data['quantite'];
             $prescription->duree = $data['duree'];
             $prescription->detail = $data['detail'];
             $prescription->medicament_id = $data['medicament_id'];
-            $prescription->ratio = $numerator . '/' . $denominator;
+
+            $prescription->ratio = $nbprjour .' medicaments par jour';
 
             $prescription->save();
 

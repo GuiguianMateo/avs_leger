@@ -26,7 +26,7 @@
                             <th class="py-3 px-4 border-b">{{ __("Nom Client") }}</th>
                             <th class="py-3 px-4 border-b">{{ __("Prénom Client") }}</th>
                             <th class="py-3 px-4 border-b">{{ __("Date de Consultation") }}</th>
-                            <th class="py-3 px-4 border-b">{{ __("Statu") }}</th>
+                            <th class="py-3 px-4 border-b">{{ __("Statut") }}</th>
                             <th class="py-3 px-4 border-b text-center">{{ __("Actions") }}</th>
                         </tr>
                     </thead>

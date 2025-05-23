@@ -22,7 +22,7 @@
                 </div>
 
                 <div>
-                    <label for="quantite" class="block font-medium text-gray-700">{{ __("Quantitée de médicament") }}</label>
+                    <label for="quantite" class="block font-medium text-gray-700">{{ __("Quantité de médicament") }}</label>
 
                     <input type="number" aria-valuemin="0" aria-valuemax="90" class="w-full mt-2 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" name="quantite">
                     @error("quantite")

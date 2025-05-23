@@ -35,14 +35,6 @@ class UserSeeder extends Seeder
             'password' => Hash::make('useruser'),
         ]);
 
-        Bouncer::allow('admin')->to([
-            'absence-restore',
-        ]);
-
-        Bouncer::allow('praticien')->to([
-            'absence-restore',
-        ]);
-
         Bouncer::assign('admin')->to($admin);
         Bouncer::assign('praticien')->to($praticien);
 

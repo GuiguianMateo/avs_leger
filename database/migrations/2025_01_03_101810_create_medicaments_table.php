@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('medicaments', function (Blueprint $table) {
             $table->id('id');
             $table->string('nom');
-            $table->date('peremption');
+            $table->integer('peremption');
             $table->timestamps();
             $table->softDeletes();
         });
