@@ -11,7 +11,7 @@ class PrescriptionSeeder extends Seeder
     {
         $prescriptions = [
             [
-                'posologie' => '3 medicament(s) par jour',
+                'posologie' => '3',
                 'quantite' => 21,
                 'duree' => 7,
                 'detail' => 'Prendre le comprimé après les repas',
@@ -19,7 +19,7 @@ class PrescriptionSeeder extends Seeder
                 'medicament_id' => 1,
             ],
             [
-                'posologie' => '3 medicament(s) par jour',
+                'posologie' => '3',
                 'quantite' => 8,
                 'duree' => 4,
                 'detail' => 'Prendre 1 comprimé matin et soir en cas de douleur',
@@ -27,7 +27,7 @@ class PrescriptionSeeder extends Seeder
                 'medicament_id' => 2,
             ],
             [
-                'posologie' => '2 medicament(s) par jour',
+                'posologie' => '2',
                 'quantite' => 14,
                 'duree' => 7,
                 'detail' => 'Traitement antibiotique complet',
@@ -35,7 +35,7 @@ class PrescriptionSeeder extends Seeder
                 'medicament_id' => 3,
             ],
             [
-                'posologie' => '1 medicament(s) par jour',
+                'posologie' => '1',
                 'quantite' => 30,
                 'duree' => 30,
                 'detail' => 'Prendre 1 comprimé par jour le matin à jeun',
@@ -43,7 +43,7 @@ class PrescriptionSeeder extends Seeder
                 'medicament_id' => 4,
             ],
             [
-                'posologie' => '4 medicament(s) par jour',
+                'posologie' => '4',
                 'quantite' => 8,
                 'duree' => 2,
                 'detail' => 'En cas de fièvre élevée, maximum 4 par jour',
@@ -51,7 +51,7 @@ class PrescriptionSeeder extends Seeder
                 'medicament_id' => 5,
             ],
             [
-                'posologie' => '1 medicament(s) pour 30 jour',
+                'posologie' => '1',
                 'quantite' => 1,
                 'duree' => 30,
                 'detail' => '1 à 2 bouffées en cas de crise d\'asthme',
@@ -59,7 +59,7 @@ class PrescriptionSeeder extends Seeder
                 'medicament_id' => 7,
             ],
             [
-                'posologie' => '1 medicament(s) par jour',
+                'posologie' => '1',
                 'quantite' => 14,
                 'duree' => 14,
                 'detail' => 'Traitement anti-inflammatoire, comprimé journalier',

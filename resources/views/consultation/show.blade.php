@@ -83,7 +83,7 @@
                                         <td class="py-3 px-4">{{ $prescription->created_at ? $prescription->created_at->format('d/m/Y') : __('Aucune info recensée') }}</td>
                                         <td class="py-3 px-4 text-center">{{ $prescription->quantite }}</td>
                                         <td class="py-3 px-4 text-center">{{ $prescription->duree }} {{ __("jours") }}</td>
-                                        <td class="py-3 px-4 text-center">{{ $prescription->posologie }}</td>
+                                        <td class="py-3 px-4 text-center">{{ $prescription->posologie }} {{ __("medicament(s) par jour") }}</td>
                                         <td class="py-3 px-4 text-center">
                                             <div class="inline-flex gap-2">
                                                 @if ($prescription->deleted_at === null)

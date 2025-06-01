@@ -56,7 +56,7 @@ class PrescriptionController extends Controller
             $prescription->medicament_id = $data['medicament_id'];
             $prescription->consultation_id = $data['consultation_id'];
 
-            $prescription->posologie = $nbprjour .' medicaments par jour';
+            $prescription->posologie = $nbprjour;
 
             $prescription->save();
 
@@ -110,7 +110,7 @@ class PrescriptionController extends Controller
             $prescription->detail = $data['detail'];
             $prescription->medicament_id = $data['medicament_id'];
 
-            $prescription->posologie = $nbprjour .' medicaments par jour';
+            $prescription->posologie = $nbprjour;
 
             $prescription->save();
 
