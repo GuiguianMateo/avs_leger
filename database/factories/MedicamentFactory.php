@@ -23,7 +23,9 @@ class MedicamentFactory extends Factory
     {
         return [
             'nom' => $this->faker->randomElement(static::$prefixes) . $this->faker->randomElement(static::$suffixes),
-            'peremption' => $this->faker->numberBetween(183, 1095),
+            'effet_indesirable' => $this->faker->text(10),
+            'mode_administration' => $this->faker->text(10),
+            'niveau_avertissement' => $this->faker->randomElement(['Niveau 1', 'Niveau 2', 'Niveau 3']),
         ];
 
     }

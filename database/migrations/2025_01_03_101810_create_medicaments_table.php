@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('medicaments', function (Blueprint $table) {
             $table->id('id');
             $table->string('nom');
-            $table->integer('peremption');
+            $table->string('effet_indesirable');
+            $table->string('mode_administration');
+            $table->enum('niveau_avertissement', ['Niveau 1', 'Niveau 2', 'Niveau 3']);
             $table->timestamps();
             $table->softDeletes();
         });

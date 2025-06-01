@@ -2,18 +2,30 @@
 
 namespace Database\Seeders;
 
-use App\Models\Type;
 use Illuminate\Database\Seeder;
+use App\Models\Type;
 
 class TypeSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        Type::factory()
-        ->count(15)
-        ->create();
+        $types = [
+            ['nom' => 'Dentaire', 'duree' => 45],
+            ['nom' => 'Pédiatrique', 'duree' => 40],
+            ['nom' => 'Cardiologique', 'duree' => 50],
+            ['nom' => 'Dermatologique', 'duree' => 30],
+            ['nom' => 'Ophtalmologique', 'duree' => 35],
+            ['nom' => 'Gynécologique', 'duree' => 40],
+            ['nom' => 'Neurologique', 'duree' => 60],
+            ['nom' => 'Orthopédique', 'duree' => 45],
+            ['nom' => 'Psychiatrique', 'duree' => 50],
+            ['nom' => 'ORL', 'duree' => 30],
+            ['nom' => 'Radiologique', 'duree' => 25],
+            ['nom' => 'Urgences', 'duree' => 20],
+        ];
+
+        foreach ($types as $type) {
+            Type::create($type);
+        }
     }
 }

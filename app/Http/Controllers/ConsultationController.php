@@ -168,7 +168,7 @@ class ConsultationController extends Controller
     {
         $consultations = Consultation::all();
 
-        return view('Consultation.demande', compact('consultations'));
+        return view('consultation.demande', compact('consultations'));
     }
 
     public function statu(Request $request, Consultation $consultation): RedirectResponse

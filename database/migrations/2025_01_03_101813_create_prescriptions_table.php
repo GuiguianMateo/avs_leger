@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('prescriptions', function (Blueprint $table) {
             $table->id('id');
-            $table->string('ratio', 30);
+            $table->string('posologie', 30);
             $table->integer('quantite');
             $table->integer('duree');
             $table->string('detail', 250);
