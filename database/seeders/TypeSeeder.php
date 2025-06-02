@@ -10,13 +10,13 @@ class TypeSeeder extends Seeder
     public function run(): void
     {
         $types = [
-            ['nom' => 'Dentaire',         'duree' => 45],
-            ['nom' => 'Pédiatrique',      'duree' => 40],
-            ['nom' => 'Médecine courante', 'duree' => 50],
-            ['nom' => 'Dermatologique',   'duree' => 30],
-            ['nom' => 'Ophtalmologique',  'duree' => 35],
-            ['nom' => 'Gynécologique',    'duree' => 40],
-            ['nom' => 'ORL',              'duree' => 30],
+            ['nom' => 'Dentaire',         'duree' => 180],
+            ['nom' => 'Pédiatrique',      'duree' => 90],
+            ['nom' => 'Médecine courante', 'duree' => 365],
+            ['nom' => 'Dermatologique',   'duree' => 365],
+            ['nom' => 'Ophtalmologique',  'duree' => 730],
+            ['nom' => 'Gynécologique',    'duree' => 365],
+            ['nom' => 'ORL',              'duree' => 730],
         ];
 
         foreach ($types as $type) {
