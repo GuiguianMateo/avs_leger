@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nom');
             $table->string('effet_indesirable');
             $table->string('mode_administration');
-            $table->enum('niveau_avertissement', ['Niveau 1', 'Niveau 2', 'Niveau 3']);
+            $table->enum('niveau_avertissement', ['Niveau 0', 'Niveau 1', 'Niveau 2', 'Niveau 3']);
             $table->timestamps();
             $table->softDeletes();
         });

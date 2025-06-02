@@ -66,11 +66,11 @@
 
 
                 <div>
-                    <label for="user_id" class="block font-medium text-gray-700">{{ __("Nom du Client") }}</label>
+                    <label for="user_id" class="block font-medium text-gray-700">{{ __("Nom du Patient") }}</label>
                     @if(Auth::user()->isA('admin') || Auth::user()->isA('praticien'))
                         <select name="user_id" id="user_id"
                                 class="w-full mt-2 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
-                            <option value="">{{ __("Veuillez selectionner un client") }}</option>
+                            <option value="">{{ __("Veuillez selectionner un patient") }}</option>
                             @foreach($users as $user)
                                 <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
                                     {{ $user->nom }} {{ $user->prenom }}
