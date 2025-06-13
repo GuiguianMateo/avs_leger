@@ -18,7 +18,7 @@
             <!-- Informations de la Consultation -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 shadow-sm">
-                    <h2 class="text-lg font-semibold text-gray-700 mb-4">{{ __('Informations du Client') }}</h2>
+                    <h2 class="text-lg font-semibold text-gray-700 mb-4">{{ __('Informations du Patient') }}</h2>
                     <p class="text-gray-600"><strong>{{ __('Nom') }} :</strong> {{ $consultation->user->nom }}</p>
                     <p class="text-gray-600"><strong>{{ __('Prénom') }} :</strong> {{ $consultation->user->prenom }}</p>
                 </div>
@@ -71,7 +71,7 @@
                                 <th class="py-3 px-4 border-b">{{ __("Début traitement") }}</th>
                                 <th class="py-3 px-4 border-b text-center">{{ __("Quantité") }}</th>
                                 <th class="py-3 px-4 border-b text-center">{{ __("Durée") }}</th>
-                                <th class="py-3 px-4 border-b text-center">{{ __("Ratio") }}</th>
+                                <th class="py-3 px-4 border-b text-center">{{ __("Posologie") }}</th>
                                 <th class="py-3 px-4 border-b text-center">{{ __("Actions") }}</th>
                             </tr>
                         </thead>
@@ -83,7 +83,7 @@
                                         <td class="py-3 px-4">{{ $prescription->created_at ? $prescription->created_at->format('d/m/Y') : __('Aucune info recensée') }}</td>
                                         <td class="py-3 px-4 text-center">{{ $prescription->quantite }}</td>
                                         <td class="py-3 px-4 text-center">{{ $prescription->duree }} {{ __("jours") }}</td>
-                                        <td class="py-3 px-4 text-center">{{ $prescription->ratio }}</td>
+                                        <td class="py-3 px-4 text-center">{{ $prescription->posologie }} {{ __("medicament(s) par jour") }}</td>
                                         <td class="py-3 px-4 text-center">
                                             <div class="inline-flex gap-2">
                                                 @if ($prescription->deleted_at === null)
